@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "title": "Sayings - Inspirational Quotes",
+    "description": "Discover a collection of inspirational sayings from famous authors and personalities."
+  },
+  "navigation": {
+    "home": "Home",
+    "authors": "Authors",
+    "allAuthors": "All Authors",
+    "backToHome": "Back to Home"
+  },
+  "home": {
+    "title": "Inspirational Sayings",
+    "description": "Discover wisdom from the world's greatest minds."
+  },
+  "quotes": {
+    "quoteBy": "Saying by",
+    "notFound": "Saying not found",
+    "copyToClipboard": "Copy to clipboard",
+    "copied": "Copied!",
+    "shareOnTwitter": "Share on Twitter",
+    "shareOnFacebook": "Share on Facebook",
+    "shareOnLinkedIn": "Share on LinkedIn",
+    "share": "Share this saying"
+  },
+  "authors": {
+    "allAuthors": "All Authors",
+    "quotesBy": "Sayings by",
+    "exploreQuotesBy": "Explore inspirational sayings by",
+    "viewQuotes": "View Sayings",
+    "quote": "saying",
+    "quotes": "sayings",
+    "noQuotes": "No sayings found for this author.",
+    "notFound": "Author not found",
+    "description": "Browse sayings from famous authors and personalities."
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "footer": {
+    "copyright": "Sayings. All rights reserved.",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Learn more about Sayings and our mission to share wisdom.",
+    "mission": "Our Mission",
+    "missionText": "At Sayings, we believe in the power of words to inspire, motivate, and transform lives. Our mission is to collect and share the wisdom of the world's greatest thinkers, making it accessible to everyone.",
+    "story": "Our Story",
+    "storyText": "Sayings was founded in 2023 by a group of literature enthusiasts who wanted to create a platform where people could discover and share inspirational quotes. What started as a small collection has grown into a comprehensive library of wisdom from diverse authors across different cultures and time periods.",
+    "values": "Our Values",
+    "value1Title": "Authenticity",
+    "value1Text": "We verify all quotes to ensure they are correctly attributed and accurately represented.",
+    "value2Title": "Inclusivity",
+    "value2Text": "We strive to include diverse voices and perspectives from around the world.",
+    "value3Title": "Accessibility",
+    "value3Text": "We believe wisdom should be accessible to everyone, regardless of language or background."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Get in touch with the Sayings team.",
+    "getInTouch": "Get in Touch",
+    "getInTouchText": "Have a question, suggestion, or just want to say hello? We'd love to hear from you!",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSubmit": "Send Message",
+    "formSuccess": "Your message has been sent. We'll get back to you soon!",
+    "formError": "There was an error sending your message. Please try again.",
+    "contactInfo": "Contact Information",
+    "email": "Email",
+    "emailAddress": "hello@sayings.com",
+    "followUs": "Follow Us",
+    "socialText": "Stay connected with us on social media for daily inspiration."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Learn how we collect, use, and protect your information.",
+    "lastUpdated": "Last Updated",
+    "introduction": "Introduction",
+    "introductionText": "This Privacy Policy explains how Sayings collects, uses, and protects your personal information when you use our website.",
+    "informationWeCollect": "Information We Collect",
+    "informationWeCollectText": "We may collect personal information such as your name and email address when you contact us or sign up for our newsletter. We also collect usage data to improve our service.",
+    "howWeUseInformation": "How We Use Your Information",
+    "howWeUseInformationText": "We use your information to provide and improve our service, respond to your inquiries, and send you updates if you've subscribed to our newsletter.",
+    "cookies": "Cookies",
+    "cookiesText": "We use cookies to enhance your experience on our website. You can set your browser to refuse all or some browser cookies, but this may affect some functionality.",
+    "dataProtection": "Data Protection",
+    "dataProtectionText": "We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.",
+    "thirdPartyLinks": "Third-Party Links",
+    "thirdPartyLinksText": "Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these websites.",
+    "changesPolicy": "Changes to This Policy",
+    "changesPolicyText": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "The terms and conditions governing your use of Sayings.",
+    "lastUpdated": "Last Updated",
+    "acceptance": "Acceptance of Terms",
+    "acceptanceText": "By accessing or using Sayings, you agree to be bound by these Terms of Service and all applicable laws and regulations.",
+    "intellectualProperty": "Intellectual Property",
+    "intellectualPropertyText": "All content on this website, including text, graphics, logos, and quotes, is the property of Sayings or its content suppliers and is protected by international copyright laws.",
+    "userContent": "User Content",
+    "userContentText": "If you submit content to our website, you grant us a non-exclusive, royalty-free license to use, modify, and display that content.",
+    "prohibitedUses": "Prohibited Uses",
+    "prohibitedUsesText": "You may not use our website for any illegal purpose or in any manner that could damage, disable, or impair the website.",
+    "disclaimer": "Disclaimer",
+    "disclaimerText": "The content on our website is provided for general information purposes only. We make no warranties about the accuracy, reliability, or availability of this content.",
+    "limitation": "Limitation of Liability",
+    "limitationText": "Sayings shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the website.",
+    "changes": "Changes to Terms",
+    "changesText": "We reserve the right to modify these Terms of Service at any time. Your continued use of the website after any changes indicates your acceptance of the modified terms."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The page you are looking for doesn't exist or has been moved."
+  }
+}
+
