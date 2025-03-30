@@ -7,6 +7,8 @@ import { Footer } from "@/components/footer"
 import { getDictionary } from "@/dictionaries"
 import type { Metadata } from "next"
 import { locales, rtlLocales } from "@/middleware"
+import { ModalProvider } from "@/contexts/modal-context"
+import { QuoteModal } from "@/components/quote-modal"
 
 // Fix the font configuration - use separate subsets instead of combining them
 const inter = Inter({
@@ -68,11 +70,14 @@ export default async function RootLayout({
       </head>
       <body className={`${inter.className} ${isRtl ? "rtl" : "ltr"}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="min-h-screen flex flex-col">
-            <Navbar lang={lang} dictionary={dict.navigation} isRtl={isRtl} />
-            <main className="flex-1">{children}</main>
-            <Footer lang={lang} dictionary={dict.footer} isRtl={isRtl} />
-          </div>
+          <ModalProvider>
+            <div className="min-h-screen flex flex-col">
+              <Navbar lang={lang} dictionary={dict.navigation} isRtl={isRtl} />
+              <main className="flex-1">{children}</main>
+              <Footer lang={lang} dictionary={dict.footer} isRtl={isRtl} />
+              <QuoteModal />
+            </div>
+          </ModalProvider>
         </ThemeProvider>
       </body>
     </html>

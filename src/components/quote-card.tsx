@@ -1,33 +1,50 @@
+"use client"
+
+import type React from "react"
 import Link from "next/link"
 import type { Quote } from "@/types/quote"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { rtlLocales } from "@/middleware"
+import { useModal } from "@/contexts/modal-context"
 
 interface QuoteCardProps {
   quote: Quote
-  lang: string
-  dictionary: {
+  lang?: string
+  dictionary?: {
     quoteBy: string
     [key: string]: string
   }
   hideAuthor?: boolean
 }
 
-export function QuoteCard({ quote, lang, dictionary, hideAuthor = false }: QuoteCardProps) {
+export function QuoteCard({
+  quote,
+  lang = "en",
+  dictionary = { quoteBy: "Quote by" },
+  hideAuthor = false,
+}: QuoteCardProps) {
+  const { openModal } = useModal()
+
   // Safely check if lang is defined before using it
-  const isRtl = lang && rtlLocales.includes(lang)
+  const isRtl = rtlLocales.includes(lang)
+
+  // Handle quote click to open modal
+  const handleQuoteClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    openModal(quote, lang, dictionary)
+  }
 
   return (
     <Card className="h-full flex flex-col">
       <CardContent className="pt-6 flex-1">
-        <Link href={`/${lang}/quotes/${quote.id}`} className="block group">
+        <a href={`/${lang}/quotes/${quote.id}`} className="block group cursor-pointer" onClick={handleQuoteClick}>
           <blockquote
             className={`text-base md:text-lg font-serif italic group-hover:underline ${isRtl ? "text-right" : ""}`}
           >
             "{quote.text}"
           </blockquote>
-        </Link>
+        </a>
       </CardContent>
       {!hideAuthor && (
         <CardFooter className="border-t pt-4 flex items-center gap-3">
@@ -37,7 +54,7 @@ export function QuoteCard({ quote, lang, dictionary, hideAuthor = false }: Quote
           </Avatar>
           <Link
             href={`/${lang}/authors/${quote.author.id}`}
-            className={`text-sm font-medium hover:underline ${isRtl ? "mr-auto" : "ml-auto"}`}
+            className={`text-sm font-medium hover:underline ml-auto`}
             title={`${dictionary.quoteBy} ${quote.author.name}`}
           >
             — {quote.author.name}

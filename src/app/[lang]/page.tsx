@@ -1,4 +1,4 @@
-import { QuoteCard } from "@/components/quote-card"
+import { QuoteProvider } from "@/components/quote-provider"
 import { Pagination } from "@/components/pagination"
 import { getDictionary } from "@/dictionaries"
 import { getQuotes } from "@/lib/data"
@@ -66,18 +66,12 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
       <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">{dict.home.description}</p>
 
-      {/* Updated grid with more responsive breakpoints */}
-      <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedQuotes.map((quote) => (
-          <QuoteCard key={quote.id} quote={quote} lang={lang} dictionary={dict.quotes} />
-        ))}
-      </div>
+      {/* Use the QuoteProvider to fetch and render quotes */}
+      <QuoteProvider lang={lang} currentPage={currentPage} quotesPerPage={quotesPerPage} />
 
       <div className="mt-8 md:mt-12">
         <Pagination currentPage={currentPage} totalPages={totalPages} lang={lang} dictionary={dict.pagination} />
       </div>
-
-      {/* Removed structured data script that might be causing issues */}
     </div>
   )
 }
