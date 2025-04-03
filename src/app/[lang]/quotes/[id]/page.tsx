@@ -7,14 +7,14 @@ import { getQuoteById, generateStaticParams as generateQuoteParams } from "@/lib
 import { notFound } from "next/navigation"
 import { ShareButtons } from "@/components/share-buttons"
 import type { Metadata, ResolvingMetadata } from 'next'
-import { revalidationTime } from "@/lib/db"
+
 import { QuoteStructuredData } from "@/components/structured-data"
 
 type QuotePageProps = {
   params: Promise<{ lang: string, id: string }>
 }
  
-export const revalidate = revalidationTime
+export const revalidate = 2592000
 
 export async function generateStaticParams() {
   return generateQuoteParams()

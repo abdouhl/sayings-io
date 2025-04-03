@@ -7,7 +7,7 @@ import { getDictionary } from "@/dictionaries"
 import { getAuthorByUsername, getQuotesByAuthor, generateStaticParams as generateAuthorParams } from "@/lib/authors"
 import { notFound } from "next/navigation"
 import type { Metadata, ResolvingMetadata } from 'next'
-import { revalidationTime } from "@/lib/db"
+
 import { Badge } from "@/components/ui/badge"
 import { AuthorStructuredData } from "@/components/structured-data"
 
@@ -15,7 +15,7 @@ type AuthorPageProps = {
   params: Promise<{ lang: string,id: string }>
 }
 
-export const revalidate = revalidationTime
+export const revalidate = 2592000
 
 export async function generateStaticParams() {
   return generateAuthorParams()

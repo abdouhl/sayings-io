@@ -16,7 +16,7 @@ export const getQuotes = cache(async (lang: string, page = 1, limit = 10): Promi
       LIMIT ${limit} OFFSET ${offset}
     `
 
-    return quotes.map((q) => ({
+    return (quotes as any[]).map((q) => ({
       id: q.id,
       text: q.text,
       author: {
@@ -42,11 +42,11 @@ export const getQuoteById = cache(async (id: string, lang: string): Promise<Quot
       WHERE q.id = ${id}::uuid AND q.language = ${lang}
     `
 
-    if (quotes.length === 0) {
+    if ((quotes as any[]).length === 0) {
       return null
     }
 
-    const q = quotes[0]
+    const q = (quotes as any[])[0]
     return {
       id: q.id,
       text: q.text,
@@ -68,7 +68,7 @@ export const countQuotes = cache(async (lang: string): Promise<number> => {
     const result = await sql`
       SELECT COUNT(*) as count FROM quotes WHERE language = ${lang}
     `
-    return Number.parseInt(result[0].count)
+    return Number.parseInt((result as any[])[0].count)
   } catch (error) {
     console.error("Error counting quotes:", error)
     return 0
@@ -82,7 +82,7 @@ export async function generateStaticParams() {
       SELECT id FROM quotes LIMIT 100
     `
 
-    return quotes.map((quote) => ({
+    return (quotes as any[]).map((quote) => ({
       id: quote.id,
     }))
   } catch (error) {

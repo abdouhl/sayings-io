@@ -82,7 +82,7 @@ export async function seedDatabase() {
       // Check if database is already seeded
       const existingAuthors = await sql`SELECT COUNT(*) as count FROM authors`
 
-      if (Number.parseInt(existingAuthors[0].count) > 0) {
+      if (Number.parseInt((existingAuthors as any[])[0].count) > 0) {
         console.log("Database already seeded")
         return { success: true, message: "Database already seeded" }
       }

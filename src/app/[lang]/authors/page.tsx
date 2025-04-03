@@ -4,7 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { getDictionary } from "@/dictionaries"
 import type { Metadata, ResolvingMetadata } from 'next'
 import { getAuthors } from "@/lib/authors"
-import { revalidationTime } from "@/lib/db"
+
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 
@@ -12,7 +12,7 @@ type AuthorsPageProps = {
   params: Promise<{ lang: string}>
 }
  
-export const revalidate = revalidationTime
+export const revalidate = 2592000
 
 export async function generateMetadata(
   { params }: AuthorsPageProps,

@@ -13,7 +13,7 @@ export const getAuthors = cache(async (lang: string): Promise<(Author & { quoteC
       ORDER BY a.name
     `
 
-    return authors.map((a) => ({
+    return (authors as any[]).map((a) => ({
       username: a.username,
       name: a.name,
       avatar: a.avatar,
@@ -34,11 +34,11 @@ export const getAuthorByUsername = cache(async (username: string, lang: string):
       WHERE username = ${username}
     `
 
-    if (authors.length === 0) {
+    if ((authors as any[]).length === 0) {
       return null
     }
 
-    const a = authors[0]
+    const a = (authors as any[])[0]
     return {
       username: a.username,
       name: a.name,
@@ -61,7 +61,7 @@ export const getQuotesByAuthor = cache(async (username: string, lang: string): P
       ORDER BY q.created_at DESC
     `
 
-    return quotes.map((q) => ({
+    return (quotes as any[]).map((q) => ({
       id: q.id,
       text: q.text,
       author: {
@@ -83,7 +83,7 @@ export async function generateStaticParams() {
       SELECT username FROM authors LIMIT 100
     `
 
-    return authors.map((author) => ({
+    return (authors as any[]).map((author) => ({
       id: author.username,
     }))
   } catch (error) {

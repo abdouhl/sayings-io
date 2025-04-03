@@ -2,12 +2,11 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
 export function SeedButton() {
   const [isSeeding, setIsSeeding] = useState(false)
-  const { toast } = useToast()
 
   const handleSeed = async () => {
     setIsSeeding(true)
@@ -20,24 +19,14 @@ export function SeedButton() {
       const data = await response.json()
 
       if (response.ok) {
-        toast({
-          title: "Success",
-          description: data.message || "Database seeded successfully",
-        })
+        toast.success(data.message || "Database seeded successfully")
       } else {
-        toast({
-          title: "Error",
-          description: data.error || "Failed to seed database",
-          variant: "destructive",
-        })
+        toast.error(data.error || "Failed to seed database")
+
       }
     } catch (error) {
       console.error("Error seeding database:", error)
-      toast({
-        title: "Error",
-        description: "Failed to seed database",
-        variant: "destructive",
-      })
+      toast.error("Failed to seed database")
     } finally {
       setIsSeeding(false)
     }

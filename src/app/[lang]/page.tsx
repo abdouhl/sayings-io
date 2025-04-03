@@ -3,7 +3,7 @@ import { Pagination } from "@/components/pagination"
 import { getDictionary } from "@/dictionaries"
 import { countQuotes } from "@/lib/quotes"
 import type { Metadata, ResolvingMetadata } from 'next'
-import { revalidationTime } from "@/lib/db"
+
 import { DatabaseInitializer } from "@/components/database-initializer"
 import { Suspense } from "react"
 import { QuoteCardSkeleton } from "@/components/skeletons"
@@ -12,7 +12,8 @@ type HomePageProps = {
   params: Promise<{ lang: string}>
   searchParams: Promise<{ page: string}>
 }
- 
+
+export const revalidate = 2592000
 
 export async function generateMetadata(
   { params, searchParams }: HomePageProps,

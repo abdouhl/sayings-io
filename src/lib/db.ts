@@ -14,6 +14,5 @@ export function getSqlClient() {
 const sql = getSqlClient()
 export default sql
 
-// Cache the database queries for ISR
-export const revalidationTime = 60 * 60 * 24 * 30 // 1 month in seconds
+
 
