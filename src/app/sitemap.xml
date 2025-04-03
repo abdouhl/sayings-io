@@ -7,6 +7,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,6 +16,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -23,6 +25,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yourdomain.com/fr</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -33,6 +45,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en/authors"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es/authors"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar/authors"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr/authors"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -41,6 +54,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en/authors"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es/authors"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar/authors"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr/authors"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -49,6 +63,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en/authors"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es/authors"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar/authors"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr/authors"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yourdomain.com/fr/authors</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/en/authors"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://yourdomain.com/es/authors"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://yourdomain.com/ar/authors"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://yourdomain.com/fr/authors"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

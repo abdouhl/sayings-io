@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { rtlLocales } from "@/middleware"
 import { useModal } from "@/contexts/modal-context"
+import { QuoteIcon } from "lucide-react"
 
 interface QuoteCardProps {
   quote: Quote
@@ -36,25 +37,28 @@ export function QuoteCard({
   }
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardContent className="pt-6 flex-1">
+    <Card className="h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300 border-2 hover:border-primary/30">
+      <CardContent className="pt-6 flex-1 relative">
+        <div className="absolute top-2 left-2 text-primary/20">
+          <QuoteIcon className="h-8 w-8" />
+        </div>
         <a href={`/${lang}/quotes/${quote.id}`} className="block group cursor-pointer" onClick={handleQuoteClick}>
           <blockquote
-            className={`text-base md:text-lg font-serif italic group-hover:underline ${isRtl ? "text-right" : ""}`}
+            className={`text-base md:text-lg font-serif italic group-hover:text-primary transition-colors ${isRtl ? "text-right" : ""}`}
           >
             "{quote.text}"
           </blockquote>
         </a>
       </CardContent>
       {!hideAuthor && (
-        <CardFooter className="border-t pt-4 flex items-center gap-3">
+        <CardFooter className="border-t pt-4 flex items-center gap-3 bg-muted/30">
           <Avatar className="h-8 w-8 rounded-md">
             <AvatarImage src={quote.author.avatar} alt={quote.author.name} className="object-cover" />
             <AvatarFallback className="rounded-md">{quote.author.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <Link
-            href={`/${lang}/authors/${quote.author.id}`}
-            className={`text-sm font-medium hover:underline ml-auto`}
+            href={`/${lang}/authors/${quote.author.username}`}
+            className={`text-sm font-medium hover:text-primary transition-colors ${isRtl ? "mr-auto" : "ml-auto"}`}
             title={`${dictionary.quoteBy} ${quote.author.name}`}
           >
             — {quote.author.name}

@@ -31,6 +31,7 @@ export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
     en: "English",
     es: "Español",
     ar: "العربية",
+    fr: "Français",
   }
 
   return (

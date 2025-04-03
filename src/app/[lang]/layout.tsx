@@ -9,6 +9,7 @@ import type { Metadata } from "next"
 import { locales, rtlLocales } from "@/middleware"
 import { ModalProvider } from "@/contexts/modal-context"
 import { QuoteModal } from "@/components/quote-modal"
+import { WebsiteStructuredData } from "@/components/structured-data"
 
 // Fix the font configuration - use separate subsets instead of combining them
 const inter = Inter({
@@ -61,6 +62,7 @@ export default async function RootLayout({
   
   const dict = await getDictionary(lang)
   const isRtl = rtlLocales.includes(lang)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
 
   return (
     <html lang={lang} dir={isRtl ? "rtl" : "ltr"} suppressHydrationWarning>
@@ -78,6 +80,7 @@ export default async function RootLayout({
               <QuoteModal />
             </div>
           </ModalProvider>
+          <WebsiteStructuredData baseUrl={baseUrl} />
         </ThemeProvider>
       </body>
     </html>

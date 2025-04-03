@@ -255,13 +255,99 @@ const quotesAr: Quote[] = [
   },
 ]
 
-// Get quotes based on language
+// Add French quotes to the data
+const quotesFr: Quote[] = [
+  {
+    id: "1",
+    text: "La plus grande gloire dans la vie ne réside pas dans le fait de ne jamais tomber, mais dans celui de se relever à chaque fois que nous tombons.",
+    author: {
+      id: "1",
+      name: "Nelson Mandela",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "2",
+    text: "La façon de commencer est d'arrêter de parler et de commencer à agir.",
+    author: {
+      id: "2",
+      name: "Walt Disney",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "3",
+    text: "Votre temps est limité, ne le gaspillez pas en vivant la vie de quelqu'un d'autre.",
+    author: {
+      id: "3",
+      name: "Steve Jobs",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "4",
+    text: "Si la vie était prévisible, elle cesserait d'être la vie et serait sans saveur.",
+    author: {
+      id: "4",
+      name: "Eleanor Roosevelt",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "5",
+    text: "Si vous regardez ce que vous avez dans la vie, vous en aurez toujours plus. Si vous regardez ce que vous n'avez pas dans la vie, vous n'en aurez jamais assez.",
+    author: {
+      id: "5",
+      name: "Oprah Winfrey",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "6",
+    text: "La vie est ce qui arrive pendant que vous êtes occupé à faire d'autres projets.",
+    author: {
+      id: "6",
+      name: "John Lennon",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "7",
+    text: "L'éducation est l'arme la plus puissante que vous puissiez utiliser pour changer le monde.",
+    author: {
+      id: "1",
+      name: "Nelson Mandela",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "8",
+    text: "Tous nos rêves peuvent devenir réalité si nous avons le courage de les poursuivre.",
+    author: {
+      id: "2",
+      name: "Walt Disney",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+  {
+    id: "9",
+    text: "L'innovation distingue le leader du suiveur.",
+    author: {
+      id: "3",
+      name: "Steve Jobs",
+      avatar: "/placeholder.svg?height=80&width=80",
+    },
+  },
+]
+
+// Update the getQuotes function to return French quotes
 export async function getQuotes(lang: string): Promise<Quote[]> {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 100))
 
   if (lang === "es") return quotesEs
   if (lang === "ar") return quotesAr
+  if (lang === "fr") return quotesFr
   return quotesEn
 }
 

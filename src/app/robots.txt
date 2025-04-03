@@ -1,7 +1,18 @@
-# Allow all crawlers
+# Allow all web crawlers
 User-agent: *
 Allow: /
 
+# Prevent crawling of specific pages
+Disallow: /_next/
+Disallow: /api/
+
 # Sitemap location
 Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl delay for specific bots (optional)
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: bingbot
+Crawl-delay: 1
 

@@ -4,7 +4,7 @@ import { match } from "@formatjs/intl-localematcher"
 import Negotiator from "negotiator"
 
 // List of supported locales
-export const locales = ["en", "es", "ar"]
+export const locales = ["en", "es", "ar", "fr"]
 export const defaultLocale = "en"
 
 // Define RTL languages
@@ -46,8 +46,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
-    "/((?!_next|api|favicon.ico).*)",
+    // Skip static files and API routes
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 }
 

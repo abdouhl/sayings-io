@@ -43,7 +43,7 @@ export function QuoteModal() {
               <AvatarFallback className="rounded-lg text-lg">{quote.author.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <Link
-              href={`/${lang}/authors/${quote.author.id}`}
+              href={`/${lang}/authors/${quote.author.username}`}
               className="text-lg md:text-xl font-medium hover:underline"
             >
               — {quote.author.name}
@@ -55,12 +55,13 @@ export function QuoteModal() {
             quoteText={quote.text}
             authorName={quote.author.name}
             quoteUrl={quoteUrl}
+            lang={lang}
             dictionary={dictionary}
           />
 
           {/* View full page link */}
           <div className="mt-6 text-center">
-            <Link href={`/${lang}/quotes/${quote.id}`} onClick={() => closeModal()} className="text-sm text-primary hover:underline">
+            <Link href={`/${lang}/quotes/${quote.id}`} onClick={() => closeModal()}  className="text-sm text-primary hover:underline">
               View full page
             </Link>
           </div>

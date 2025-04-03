@@ -3,15 +3,22 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { ArrowLeft, Quote } from "lucide-react"
 import { getDictionary } from "@/dictionaries"
-import { getQuoteById } from "@/lib/data"
+import { getQuoteById, generateStaticParams as generateQuoteParams } from "@/lib/quotes"
 import { notFound } from "next/navigation"
 import { ShareButtons } from "@/components/share-buttons"
 import type { Metadata, ResolvingMetadata } from 'next'
- 
+import { revalidationTime } from "@/lib/db"
+import { QuoteStructuredData } from "@/components/structured-data"
+
 type QuotePageProps = {
   params: Promise<{ lang: string, id: string }>
 }
  
+export const revalidate = revalidationTime
+
+export async function generateStaticParams() {
+  return generateQuoteParams()
+}
 
 export async function generateMetadata(
   { params }: QuotePageProps,
@@ -29,6 +36,12 @@ export async function generateMetadata(
     }
   }
 
+  // Create the URL for sharing
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://quotes-website.com"
+  const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`
+  const twitterImageUrl = `${quoteUrl}/twitter-image`
+  const ogImageUrl = `${quoteUrl}/opengraph-image`
+
   return {
     title: `${dict.quotes.quoteBy} ${quote.author.name}`,
     description: quote.text,
@@ -37,6 +50,31 @@ export async function generateMetadata(
       description: quote.text,
       type: "article",
       authors: [quote.author.name],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1000,
+          height: 1500,
+          alt: `Quote by ${quote.author.name}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${dict.quotes.quoteBy} ${quote.author.name}`,
+      description: quote.text,
+      images: [twitterImageUrl],
+    },
+    other: {
+      // Twitter specific meta tags
+      "twitter:image": twitterImageUrl,
+      "twitter:description": `"${quote.text}" — ${quote.author.name}`,
+      "twitter:url": quoteUrl,
+      // Pinterest specific meta tags
+      "pinterest:image": ogImageUrl,
+      "pinterest:description": `"${quote.text}" — ${quote.author.name}`,
+      "pinterest:url": quoteUrl,
+      "pinterest:media": ogImageUrl,
     },
   }
 }
@@ -53,61 +91,67 @@ export default async function QuotePage({ params }: QuotePageProps) {
   }
 
   // Create the URL for sharing
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://quotes-website.com"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
   const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`
 
   return (
-    <div className="container mx-auto py-8 md:py-16 px-4">
-      <Link href={`/${lang}`}>
-        <Button variant="outline" className="mb-6 md:mb-8">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {dict.navigation.backToHome}
-        </Button>
-      </Link>
+    <>
+      {/* Add structured data */}
+      <QuoteStructuredData quote={quote} lang={lang} baseUrl={baseUrl} />
 
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
-          {/* Decorative top bar */}
-          <div className="h-2 bg-gradient-to-r from-primary/80 to-primary"></div>
+      <div className="container mx-auto py-8 md:py-16 px-4">
+        <Link href={`/${lang}`}>
+          <Button variant="outline" className="mb-6 md:mb-8">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            {dict.navigation.backToHome}
+          </Button>
+        </Link>
 
-          <div className="p-6 md:p-10">
-            {/* Quote icon */}
-            <div className="flex justify-center mb-6">
-              <div className="bg-primary/10 p-4 rounded-full">
-                <Quote className="h-8 w-8 text-primary" />
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
+            {/* Decorative top bar */}
+            <div className="h-2 bg-gradient-to-r from-primary/80 to-primary"></div>
+
+            <div className="p-6 md:p-10">
+              {/* Quote icon */}
+              <div className="flex justify-center mb-6">
+                <div className="bg-primary/10 p-4 rounded-full">
+                  <Quote className="h-8 w-8 text-primary" />
+                </div>
               </div>
+
+              {/* Quote text */}
+              <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif italic text-center mb-8 leading-relaxed">
+                "{quote.text}"
+              </blockquote>
+
+              {/* Author info */}
+              <div className="flex flex-col items-center gap-4 mb-8">
+                <Avatar className="h-16 w-16 rounded-lg">
+                  <AvatarImage src={quote.author.avatar} alt={quote.author.name} className="object-cover" />
+                  <AvatarFallback className="rounded-lg text-lg">{quote.author.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <Link
+                  href={`/${lang}/authors/${quote.author.username}`}
+                  className="text-lg md:text-xl font-medium hover:underline"
+                >
+                  — {quote.author.name}
+                </Link>
+              </div>
+
+              {/* Share and copy buttons */}
+              <ShareButtons
+                quoteText={quote.text}
+                authorName={quote.author.name}
+                quoteUrl={quoteUrl}
+                lang={lang}
+                dictionary={dict.quotes}
+              />
             </div>
-
-            {/* Quote text */}
-            <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif italic text-center mb-8 leading-relaxed">
-              "{quote.text}"
-            </blockquote>
-
-            {/* Author info */}
-            <div className="flex flex-col items-center gap-4 mb-8">
-              <Avatar className="h-16 w-16 rounded-lg">
-                <AvatarImage src={quote.author.avatar} alt={quote.author.name} className="object-cover" />
-                <AvatarFallback className="rounded-lg text-lg">{quote.author.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <Link
-                href={`/${lang}/authors/${quote.author.id}`}
-                className="text-lg md:text-xl font-medium hover:underline"
-              >
-                — {quote.author.name}
-              </Link>
-            </div>
-
-            {/* Share and copy buttons */}
-            <ShareButtons
-              quoteText={quote.text}
-              authorName={quote.author.name}
-              quoteUrl={quoteUrl}
-              dictionary={dict.quotes}
-            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

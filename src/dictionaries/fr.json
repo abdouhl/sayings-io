@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "title": "Sayings - Citations Inspirantes",
+    "description": "Découvrez une collection de citations inspirantes d'auteurs et personnalités célèbres."
+  },
+  "navigation": {
+    "home": "Accueil",
+    "authors": "Auteurs",
+    "allAuthors": "Tous les Auteurs",
+    "backToHome": "Retour à l'Accueil"
+  },
+  "home": {
+    "title": "Citations Inspirantes",
+    "description": "Découvrez la sagesse des plus grands esprits du monde."
+  },
+  "quotes": {
+    "quoteBy": "Citation de",
+    "notFound": "Citation non trouvée",
+    "copyToClipboard": "Copier dans le presse-papiers",
+    "copied": "Copié !",
+    "shareOnTwitter": "Partager sur Twitter",
+    "shareOnFacebook": "Partager sur Facebook",
+    "shareOnLinkedIn": "Partager sur LinkedIn",
+    "shareOnPinterest": "Enregistrer sur Pinterest",
+    "downloadImage": "Télécharger en image",
+    "share": "Partager cette citation"
+  },
+  "authors": {
+    "allAuthors": "Tous les Auteurs",
+    "quotesBy": "Citations de",
+    "exploreQuotesBy": "Explorez les citations inspirantes de",
+    "viewQuotes": "Voir les Citations",
+    "quote": "citation",
+    "quotes": "citations",
+    "noQuotes": "Aucune citation trouvée pour cet auteur.",
+    "notFound": "Auteur non trouvé",
+    "description": "Parcourez les citations d'auteurs et personnalités célèbres."
+  },
+  "pagination": {
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "footer": {
+    "copyright": "Sayings. Tous droits réservés.",
+    "about": "À propos",
+    "contact": "Contact",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation"
+  },
+  "about": {
+    "title": "À Propos de Nous",
+    "description": "En savoir plus sur Sayings et notre mission de partager la sagesse.",
+    "mission": "Notre Mission",
+    "missionText": "Chez Sayings, nous croyons au pouvoir des mots pour inspirer, motiver et transformer des vies. Notre mission est de recueillir et partager la sagesse des plus grands penseurs du monde, la rendant accessible à tous.",
+    "story": "Notre Histoire",
+    "storyText": "Sayings a été fondé en 2023 par un groupe de passionnés de littérature qui voulaient créer une plateforme où les gens pourraient découvrir et partager des citations inspirantes. Ce qui a commencé comme une petite collection s'est transformé en une bibliothèque complète de sagesse d'auteurs divers de différentes cultures et époques.",
+    "values": "Nos Valeurs",
+    "value1Title": "Authenticité",
+    "value1Text": "Nous vérifions toutes les citations pour nous assurer qu'elles sont correctement attribuées et représentées avec précision.",
+    "value2Title": "Inclusivité",
+    "value2Text": "Nous nous efforçons d'inclure des voix et perspectives diverses du monde entier.",
+    "value3Title": "Accessibilité",
+    "value3Text": "Nous croyons que la sagesse devrait être accessible à tous, quelle que soit la langue ou l'origine."
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "description": "Entrez en contact avec l'équipe de Sayings.",
+    "getInTouch": "Prenez Contact",
+    "getInTouchText": "Vous avez une question, une suggestion, ou vous voulez simplement dire bonjour ? Nous aimerions avoir de vos nouvelles !",
+    "formName": "Nom",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSubmit": "Envoyer le Message",
+    "formSuccess": "Votre message a été envoyé. Nous vous répondrons bientôt !",
+    "formError": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer.",
+    "contactInfo": "Informations de Contact",
+    "email": "Email",
+    "emailAddress": "bonjour@sayings.com",
+    "followUs": "Suivez-Nous",
+    "socialText": "Restez connecté avec nous sur les réseaux sociaux pour une inspiration quotidienne."
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "description": "Apprenez comment nous collectons, utilisons et protégeons vos informations.",
+    "lastUpdated": "Dernière Mise à Jour",
+    "introduction": "Introduction",
+    "introductionText": "Cette Politique de Confidentialité explique comment Sayings collecte, utilise et protège vos informations personnelles lorsque vous utilisez notre site web.",
+    "informationWeCollect": "Informations que Nous Collectons",
+    "informationWeCollectText": "Nous pouvons collecter des informations personnelles telles que votre nom et adresse e-mail lorsque vous nous contactez ou vous inscrivez à notre newsletter. Nous collectons également des données d'utilisation pour améliorer notre service.",
+    "howWeUseInformation": "Comment Nous Utilisons Vos Informations",
+    "howWeUseInformationText": "Nous utilisons vos informations pour fournir et améliorer notre service, répondre à vos demandes, et vous envoyer des mises à jour si vous vous êtes abonné à notre newsletter.",
+    "cookies": "Cookies",
+    "cookiesText": "Nous utilisons des cookies pour améliorer votre expérience sur notre site web. Vous pouvez configurer votre navigateur pour refuser tous ou certains cookies, mais cela peut affecter certaines fonctionnalités.",
+    "dataProtection": "Protection des Données",
+    "dataProtectionText": "Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos informations personnelles contre l'accès, l'altération, la divulgation ou la destruction non autorisés.",
+    "thirdPartyLinks": "Liens vers des Tiers",
+    "thirdPartyLinksText": "Notre site web peut contenir des liens vers des sites web tiers. Nous ne sommes pas responsables des pratiques de confidentialité ou du contenu de ces sites web.",
+    "changesPolicy": "Modifications de Cette Politique",
+    "changesPolicyText": "Nous pouvons mettre à jour notre Politique de Confidentialité de temps à autre. Nous vous informerons de tout changement en publiant la nouvelle Politique de Confidentialité sur cette page."
+  },
+  "terms": {
+    "title": "Conditions d'Utilisation",
+    "description": "Les termes et conditions régissant votre utilisation de Sayings.",
+    "lastUpdated": "Dernière Mise à Jour",
+    "acceptance": "Acceptation des Conditions",
+    "acceptanceText": "En accédant ou en utilisant Sayings, vous acceptez d'être lié par ces Conditions d'Utilisation et toutes les lois et réglementations applicables.",
+    "intellectualProperty": "Propriété Intellectuelle",
+    "intellectualPropertyText": "Tout le contenu de ce site web, y compris les textes, graphiques, logos et citations, est la propriété de Sayings ou de ses fournisseurs de contenu et est protégé par les lois internationales sur le droit d'auteur.",
+    "userContent": "Contenu de l'Utilisateur",
+    "userContentText": "Si vous soumettez du contenu à notre site web, vous nous accordez une licence non exclusive et libre de redevance pour utiliser, modifier et afficher ce contenu.",
+    "prohibitedUses": "Utilisations Interdites",
+    "prohibitedUsesText": "Vous ne pouvez pas utiliser notre site web à des fins illégales ou d'une manière qui pourrait endommager, désactiver ou nuire au site web.",
+    "disclaimer": "Avis de Non-Responsabilité",
+    "disclaimerText": "Le contenu de notre site web est fourni à titre d'information générale uniquement. Nous ne faisons aucune garantie quant à l'exactitude, la fiabilité ou la disponibilité de ce contenu.",
+    "limitation": "Limitation de Responsabilité",
+    "limitationText": "Sayings ne sera pas responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou incapacité à utiliser le site web.",
+    "changes": "Modifications des Conditions",
+    "changesText": "Nous nous réservons le droit de modifier ces Conditions d'Utilisation à tout moment. Votre utilisation continue du site web après toute modification indique votre acceptation des conditions modifiées."
+  },
+  "notFound": {
+    "title": "Page Non Trouvée",
+    "message": "La page que vous recherchez n'existe pas ou a été déplacée."
+  }
+}
+
