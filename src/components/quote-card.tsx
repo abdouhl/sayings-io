@@ -8,6 +8,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { rtlLocales } from "@/middleware"
 import { useModal } from "@/contexts/modal-context"
 import { QuoteIcon } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+
 
 interface QuoteCardProps {
   quote: Quote
@@ -49,6 +51,17 @@ export function QuoteCard({
             "{quote.text}"
           </blockquote>
         </a>
+
+        {/* Tags - check if tags exist and have length */}
+        {quote.tags && Array.isArray(quote.tags) && quote.tags.length > 0 && (
+          <div className={`flex flex-wrap gap-1 mt-4 ${isRtl ? "justify-end" : ""}`}>
+            {quote.tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        )}
       </CardContent>
       {!hideAuthor && (
         <CardFooter className="border-t pt-4 flex items-center gap-3 bg-muted/30">
@@ -68,4 +81,3 @@ export function QuoteCard({
     </Card>
   )
 }
-

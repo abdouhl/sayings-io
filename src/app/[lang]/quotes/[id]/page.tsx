@@ -9,6 +9,7 @@ import { ShareButtons } from "@/components/share-buttons"
 import type { Metadata, ResolvingMetadata } from 'next'
 
 import { QuoteStructuredData } from "@/components/structured-data"
+import { Badge } from "@/components/ui/badge"
 
 type QuotePageProps = {
   params: Promise<{ lang: string, id: string }>
@@ -94,6 +95,7 @@ export default async function QuotePage({ params }: QuotePageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
   const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`
 
+  
   return (
     <>
       {/* Add structured data */}
@@ -125,6 +127,17 @@ export default async function QuotePage({ params }: QuotePageProps) {
                 "{quote.text}"
               </blockquote>
 
+              {/* Tags - check if tags exist and have length */}
+              {quote.tags && Array.isArray(quote.tags) && quote.tags.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                  {quote.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+
               {/* Author info */}
               <div className="flex flex-col items-center gap-4 mb-8">
                 <Avatar className="h-16 w-16 rounded-lg">
@@ -154,4 +167,5 @@ export default async function QuotePage({ params }: QuotePageProps) {
     </>
   )
 }
+
 

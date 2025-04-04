@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Quote } from "lucide-react"
 import Link from "next/link"
 import { ShareButtons } from "@/components/share-buttons"
+import { Badge } from "@/components/ui/badge"
 
 export function QuoteModal() {
   const { isOpen, quote, lang, dictionary, closeModal } = useModal()
@@ -36,6 +37,17 @@ export function QuoteModal() {
             "{quote.text}"
           </blockquote>
 
+          {/* Tags - check if tags exist and have length */}
+          {quote.tags && Array.isArray(quote.tags) && quote.tags.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-1 mb-6">
+              {quote.tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
+
           {/* Author info */}
           <div className="flex flex-col items-center gap-4 mb-8">
             <Avatar className="h-16 w-16 rounded-lg">
@@ -61,7 +73,7 @@ export function QuoteModal() {
 
           {/* View full page link */}
           <div className="mt-6 text-center">
-            <Link href={`/${lang}/quotes/${quote.id}`} onClick={() => closeModal()}  className="text-sm text-primary hover:underline">
+            <Link href={`/${lang}/quotes/${quote.id}`} className="text-sm text-primary hover:underline">
               View full page
             </Link>
           </div>

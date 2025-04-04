@@ -7,18 +7,46 @@ export const getQuotes = cache(async (lang: string, page = 1, limit = 10): Promi
   try {
     const offset = (page - 1) * limit
 
-    const quotes = await sql`
-      SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
+    // First, check if the tags column exists
+    let hasTagsColumn = false
+    try {
+      const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'quotes' AND column_name = 'tags'
+      `
+      hasTagsColumn = (columnCheck as any[]).length > 0
+    } catch (error) {
+      console.error("Error checking for tags column:", error)
+      // Continue without tags
+    }
+
+    // Use different queries based on whether tags column exists
+    let quotes
+    if (hasTagsColumn) {
+      quotes = await sql`
+      SELECT q.id, q.text, q.tags, a.username as author_username, a.name as author_name, a.avatar as author_avatar
       FROM quotes q
       JOIN authors a ON q.author_username = a.username
       WHERE q.language = ${lang}
       ORDER BY q.created_at DESC
       LIMIT ${limit} OFFSET ${offset}
     `
+    } else {
+      quotes = await sql`
+        SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
+        FROM quotes q
+        JOIN authors a ON q.author_username = a.username
+        WHERE q.language = ${lang}
+        ORDER BY q.created_at DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `
+    }
 
     return (quotes as any[]).map((q) => ({
       id: q.id,
       text: q.text,
+      tags: q.tags || [],
       author: {
         username: q.author_username,
         name: q.author_name,
@@ -35,12 +63,37 @@ export const getQuotes = cache(async (lang: string, page = 1, limit = 10): Promi
 // Get quote by ID
 export const getQuoteById = cache(async (id: string, lang: string): Promise<Quote | null> => {
   try {
-    const quotes = await sql`
-      SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
+    // First, check if the tags column exists
+    let hasTagsColumn = false
+    try {
+      const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'quotes' AND column_name = 'tags'
+      `
+      hasTagsColumn = (columnCheck as any[]).length > 0
+    } catch (error) {
+      console.error("Error checking for tags column:", error)
+      // Continue without tags
+    }
+
+    // Use different queries based on whether tags column exists
+    let quotes
+    if (hasTagsColumn) {
+      quotes = await sql`
+      SELECT q.id, q.text, q.tags, a.username as author_username, a.name as author_name, a.avatar as author_avatar
       FROM quotes q
       JOIN authors a ON q.author_username = a.username
       WHERE q.id = ${id}::uuid AND q.language = ${lang}
     `
+    } else {
+      quotes = await sql`
+        SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
+        FROM quotes q
+        JOIN authors a ON q.author_username = a.username
+        WHERE q.id = ${id}::uuid AND q.language = ${lang}
+      `
+    }
 
     if ((quotes as any[]).length === 0) {
       return null
@@ -50,6 +103,7 @@ export const getQuoteById = cache(async (id: string, lang: string): Promise<Quot
     return {
       id: q.id,
       text: q.text,
+      tags: q.tags || [],
       author: {
         username: q.author_username,
         name: q.author_name,

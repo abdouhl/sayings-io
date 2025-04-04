@@ -10,6 +10,7 @@ import type { Metadata, ResolvingMetadata } from 'next'
 
 import { Badge } from "@/components/ui/badge"
 import { AuthorStructuredData } from "@/components/structured-data"
+import { Globe, Twitter, Instagram, Facebook } from "lucide-react"
 
 type AuthorPageProps = {
   params: Promise<{ lang: string,id: string }>
@@ -54,6 +55,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const dict = await getDictionary(lang)
   const { id } = await params;
   const author = await getAuthorByUsername(id, lang)
+  const isRtl = lang === "ar"
 
   if (!author) {
     notFound()
@@ -120,7 +122,64 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                     {quotes.length} {quotes.length === 1 ? dict.authors.quote : dict.authors.quotes}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground">
+
+                {/* Author bio */}
+                {author.bio && (
+                  <p className={`text-muted-foreground mb-4 ${isRtl ? "text-right" : ""}`}>{author.bio}</p>
+                )}
+
+                {/* Social links */}
+                <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-2">
+                  {author.website && (
+                    <a
+                      href={author.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <Globe className="h-4 w-4" />
+                      <span>Website</span>
+                    </a>
+                  )}
+
+                  {author.twitter && (
+                    <a
+                      href={`https://twitter.com/${author.twitter}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-[#1DA1F2] hover:underline transition-colors"
+                    >
+                      <Twitter className="h-4 w-4" />
+                      <span>Twitter</span>
+                    </a>
+                  )}
+
+                  {author.instagram && (
+                    <a
+                      href={`https://instagram.com/${author.instagram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-[#E1306C] hover:underline transition-colors"
+                    >
+                      <Instagram className="h-4 w-4" />
+                      <span>Instagram</span>
+                    </a>
+                  )}
+
+                  {author.facebook && (
+                    <a
+                      href={`https://facebook.com/${author.facebook}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-[#4267B2] hover:underline transition-colors"
+                    >
+                      <Facebook className="h-4 w-4" />
+                      <span>Facebook</span>
+                    </a>
+                  )}
+                </div>
+
+                <p className="text-muted-foreground mt-4">
                   {dict.authors.exploreQuotesBy} {author.name}
                 </p>
               </div>
@@ -150,4 +209,3 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     </>
   )
 }
-
