@@ -7,7 +7,8 @@
     "home": "Inicio",
     "authors": "Autores",
     "allAuthors": "Todos los Autores",
-    "backToHome": "Volver al Inicio"
+    "backToHome": "Volver al Inicio",
+    "title": "Frases"
   },
   "home": {
     "title": "Frases Inspiradoras",
@@ -120,4 +121,3 @@
     "message": "La página que estás buscando no existe o ha sido movida."
   }
 }
-
