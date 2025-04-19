@@ -21,7 +21,8 @@
     "shareOnTwitter": "Share on Twitter",
     "shareOnFacebook": "Share on Facebook",
     "shareOnLinkedIn": "Share on LinkedIn",
-    "share": "Share this saying"
+    "share": "Share this saying",
+    "viewFullPage": "View full page"
   },
   "authors": {
     "allAuthors": "All Authors",
@@ -120,4 +121,3 @@
     "message": "The page you are looking for doesn't exist or has been moved."
   }
 }
-

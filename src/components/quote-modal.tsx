@@ -74,7 +74,7 @@ export function QuoteModal() {
           {/* View full page link */}
           <div className="mt-6 text-center">
             <Link href={`/${lang}/quotes/${quote.id}`} className="text-sm text-primary hover:underline">
-              View full page
+             {dictionary?.viewFullPage}
             </Link>
           </div>
         </div>
