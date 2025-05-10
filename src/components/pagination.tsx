@@ -18,6 +18,7 @@ interface PaginationProps {
     next: string;
     [key: string]: string;
   };
+  baseUrl?: string;
 }
 
 export function Pagination({
@@ -25,9 +26,13 @@ export function Pagination({
   totalPages,
   lang,
   dictionary,
+  baseUrl,
 }: PaginationProps) {
   // Safely check if lang is defined before using it
   const isRtl = lang && rtlLocales.includes(lang);
+
+  // Use the provided baseUrl or default to the language root
+  const urlBase = baseUrl || `/${lang}`;
 
   // Generate an array of page numbers to display
   const getPageNumbers = () => {
@@ -80,7 +85,7 @@ export function Pagination({
             <PaginationPrevious
               isRtl={isRtl}
               content={dictionary.previous}
-              href={`/${lang}?page=${currentPage - 1}`}
+              href={`${urlBase}?page=${currentPage - 1}`}
               aria-label={dictionary.previous}
             >
               {isRtl ? dictionary.next : dictionary.previous}
@@ -99,7 +104,7 @@ export function Pagination({
           ) : (
             <PaginationItem key={pageNumber}>
               <PaginationLink
-                href={`/${lang}?page=${pageNumber}`}
+                href={`${urlBase}?page=${pageNumber}`}
                 isActive={pageNumber === currentPage}
               >
                 {pageNumber}
@@ -113,7 +118,7 @@ export function Pagination({
             <PaginationNext
               isRtl={isRtl}
               content={dictionary.next}
-              href={`/${lang}?page=${currentPage + 1}`}
+              href={`${urlBase}?page=${currentPage + 1}`}
               aria-label={dictionary.next}
             >
               {isRtl ? dictionary.previous : dictionary.next}

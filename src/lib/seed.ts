@@ -1,4 +1,4 @@
-import sql from "./db"
+import sql from "./db";
 
 // Initial seed data
 const seedData = {
@@ -344,24 +344,24 @@ const seedData = {
       },
     },
   ],
-}
+};
 
 // Seed the database
 export async function seedDatabase() {
   try {
-    console.log("Starting database seeding...")
+    console.log("Starting database seeding...");
 
     // Check if tables exist
     try {
       // Check if database is already seeded
-      const existingAuthors = await sql`SELECT COUNT(*) as count FROM authors`
+      const existingAuthors = await sql`SELECT COUNT(*) as count FROM authors`;
 
       if (Number.parseInt((existingAuthors as any[])[0].count) > 0) {
-        console.log("Database already seeded")
-        return { success: true, message: "Database already seeded" }
+        console.log("Database already seeded");
+        return { success: true, message: "Database already seeded" };
       }
     } catch (error) {
-      console.error("Error checking if tables exist:", error)
+      console.error("Error checking if tables exist:", error);
       // Tables might not exist yet, continue with seeding
     }
 
@@ -379,7 +379,7 @@ export async function seedDatabase() {
           facebook VARCHAR(255),
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         )
-      `
+      `;
 
       await sql`
         CREATE TABLE IF NOT EXISTS quotes (
@@ -390,20 +390,20 @@ export async function seedDatabase() {
           tags TEXT[],
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         )
-      `
+      `;
 
       await sql`
         CREATE INDEX IF NOT EXISTS idx_quotes_author_username ON quotes(author_username)
-      `
+      `;
 
       await sql`
         CREATE INDEX IF NOT EXISTS idx_quotes_language ON quotes(language)
-      `
+      `;
 
-      console.log("Tables created successfully")
+      console.log("Tables created successfully");
     } catch (error) {
-      console.error("Error creating tables:", error)
-      return { success: false, error: "Failed to create database tables" }
+      console.error("Error creating tables:", error);
+      return { success: false, error: "Failed to create database tables" };
     }
 
     // Seed the database
@@ -424,39 +424,40 @@ export async function seedDatabase() {
             ${authorData.instagram || null}, 
             ${authorData.facebook || null}
           )
-        `
+        `;
 
-        console.log(`Author ${authorData.name} created`)
+        console.log(`Author ${authorData.name} created`);
 
         // Create quotes for each language with tags
         for (const [lang, quotes] of Object.entries(authorData.quotes)) {
           for (const quote of quotes) {
-            const quoteText = typeof quote === "string" ? quote : quote.text
-            const tags = typeof quote === "string" ? null : quote.tags || null
+            const quoteText = typeof quote === "string" ? quote : quote.text;
+            const tags = typeof quote === "string" ? null : quote.tags || null;
 
             await sql`
               INSERT INTO quotes (text, author_username, language, tags)
               VALUES (${quoteText}, ${authorData.username}, ${lang}, ${tags})
-            `
+            `;
           }
-          console.log(`Added ${quotes.length} quotes for ${authorData.name} in ${lang}`)
+          console.log(
+            `Added ${quotes.length} quotes for ${authorData.name} in ${lang}`,
+          );
         }
       } catch (error) {
-        console.error(`Error creating author ${authorData.name}:`, error)
+        console.error(`Error creating author ${authorData.name}:`, error);
         // Continue with next author
       }
     }
 
-    console.log("Database seeded successfully")
-    return { success: true, message: "Database seeded successfully" }
+    console.log("Database seeded successfully");
+    return { success: true, message: "Database seeded successfully" };
   } catch (error) {
-    console.error("Error seeding database:", error)
+    console.error("Error seeding database:", error);
     return {
       success: false,
-      error: "Failed to seed database: " + (error instanceof Error ? error.message : String(error)),
-    }
+      error:
+        "Failed to seed database: " +
+        (error instanceof Error ? error.message : String(error)),
+    };
   }
 }
-
-
-

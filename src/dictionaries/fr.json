@@ -35,7 +35,17 @@
     "quotes": "citations",
     "noQuotes": "Aucune citation trouvée pour cet auteur.",
     "notFound": "Auteur non trouvé",
-    "description": "Parcourez les citations d'auteurs et personnalités célèbres."
+    "description": "Parcourez les citations d'auteurs et personnalités célèbres.",
+    "noAuthors": "No authors found"
+  },
+  "tags": {
+    "allTags": "All Topics",
+    "quotesWithTag": "Quotes with topic",
+    "exploreQuotesWithTag": "Explore quotes with the topic",
+    "noQuotes": "No quotes found with this topic.",
+    "noTags": "No topics found",
+    "description": "Browse quotes by topic and discover wisdom across different themes.",
+    "popularTags": "Popular Topics"
   },
   "pagination": {
     "previous": "Précédent",

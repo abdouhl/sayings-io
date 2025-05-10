@@ -1,41 +1,48 @@
-import Link from "next/link"
-import { QuoteCard } from "@/components/quote-card"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { ArrowLeft, Quote } from "lucide-react"
-import { getDictionary } from "@/dictionaries"
-import { getAuthorByUsername, getQuotesByAuthor, generateStaticParams as generateAuthorParams } from "@/lib/authors"
-import { notFound } from "next/navigation"
-import type { Metadata, ResolvingMetadata } from 'next'
+import Link from "next/link";
+import { QuoteCard } from "@/components/quote-card";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ArrowLeft, Quote } from "lucide-react";
+import { getDictionary } from "@/dictionaries";
+import {
+  getAuthorByUsername,
+  getQuotesByAuthor,
+  countQuotesByAuthor,
+  generateStaticParams as generateAuthorParams,
+} from "@/lib/authors";
+import { notFound } from "next/navigation";
+import type { Metadata, ResolvingMetadata } from "next";
 
-import { Badge } from "@/components/ui/badge"
-import { AuthorStructuredData } from "@/components/structured-data"
-import { Globe, Twitter, Instagram, Facebook } from "lucide-react"
+import { Badge } from "@/components/ui/badge";
+import { AuthorStructuredData } from "@/components/structured-data";
+import { Globe, Twitter, Instagram, Facebook } from "lucide-react";
+import { Pagination } from "@/components/pagination";
 
 type AuthorPageProps = {
-  params: Promise<{ lang: string,id: string }>
-}
+  params: Promise<{ lang: string; id: string }>;
+  searchParams: Promise<{ page: string }>;
+};
 
-export const revalidate = 2592000
+export const revalidate = 2592000;
 
 export async function generateStaticParams() {
-  return generateAuthorParams()
+  return generateAuthorParams();
 }
-
-export async function generateMetadata(
-  { params }: AuthorPageProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; id: string }>;
+}): Promise<Metadata> {
   // Ensure params.lang exists
-  const { lang = "en" } = await params ?? {};
-  const dict = await getDictionary(lang)
+  const { lang = "en" } = (await params) ?? {};
+  const dict = await getDictionary(lang);
   const { id } = await params;
-  const author = await getAuthorByUsername(id, lang)
+  const author = await getAuthorByUsername(id, lang);
 
   if (!author) {
     return {
       title: dict.authors.notFound,
-    }
+    };
   }
 
   return {
@@ -46,23 +53,34 @@ export async function generateMetadata(
       description: `${dict.authors.exploreQuotesBy} ${author.name}`,
       type: "profile",
     },
-  }
+  };
 }
 
-export default async function AuthorPage({ params }: AuthorPageProps) {
+export default async function AuthorPage({
+  params,
+  searchParams,
+}: AuthorPageProps) {
   // Ensure params.lang exists
-  const { lang = "en" } = await params ?? {};
-  const dict = await getDictionary(lang)
+  const { lang = "en" } = (await params) ?? {};
+  const dict = await getDictionary(lang);
   const { id } = await params;
-  const author = await getAuthorByUsername(id, lang)
-  const isRtl = lang === "ar"
+  const author = await getAuthorByUsername(id, lang);
+  const isRtl = lang === "ar";
+  const { page = "1" } = (await searchParams) ?? {};
 
   if (!author) {
-    notFound()
+    notFound();
   }
 
-  const quotes = await getQuotesByAuthor(id, lang)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
+  // Handle pagination
+  const currentPage = Number.parseInt(page);
+  const quotesPerPage = 9;
+
+  const quotes = await getQuotesByAuthor(id, lang, currentPage, quotesPerPage);
+  const totalQuotes = await countQuotesByAuthor(id, lang);
+  const totalPages = Math.max(1, Math.ceil(totalQuotes / quotesPerPage));
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
   // Generate a gradient color based on the author's name
   const getGradientColor = (name: string) => {
     const colors = [
@@ -74,19 +92,26 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       "from-cyan-500 to-sky-500",
       "from-red-500 to-orange-500",
       "from-lime-500 to-green-500",
-    ]
+    ];
 
     // Use the sum of character codes to pick a color
-    const sum = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)
-    return colors[sum % colors.length]
-  }
+    const sum = name
+      .split("")
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return colors[sum % colors.length];
+  };
 
-  const gradientClass = getGradientColor(author.name)
-  
+  const gradientClass = getGradientColor(author.name);
+
   return (
     <>
       {/* Add structured data */}
-      <AuthorStructuredData author={author} quotes={quotes} lang={lang} baseUrl={baseUrl} />
+      <AuthorStructuredData
+        author={author}
+        quotes={quotes}
+        lang={lang}
+        baseUrl={baseUrl}
+      />
 
       <div className="container mx-auto py-8 md:py-16 px-4">
         <div className="flex flex-wrap gap-3 items-center mb-6 md:mb-8">
@@ -105,27 +130,46 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         </div>
 
         <div className="max-w-4xl mx-auto mb-12">
-          <div className={`bg-gradient-to-r ${gradientClass} rounded-t-lg h-4`}></div>
+          <div
+            className={`bg-gradient-to-r ${gradientClass} rounded-t-lg h-4`}
+          ></div>
           <div className="bg-card border border-t-0 rounded-b-lg p-8 shadow-sm">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               <div className="relative">
-                <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass} rounded-lg opacity-20`}></div>
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${gradientClass} rounded-lg opacity-20`}
+                ></div>
                 <Avatar className="h-32 w-32 rounded-lg border-2 border-background shadow-md">
-                  <AvatarImage src={author.avatar} alt={author.name} className="object-cover" />
-                  <AvatarFallback className="text-3xl rounded-lg">{author.name.charAt(0)}</AvatarFallback>
+                  <AvatarImage
+                    src={author.avatar || "/placeholder.svg"}
+                    alt={author.name}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="text-3xl rounded-lg">
+                    {author.name.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{author.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">
+                  {author.name}
+                </h1>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
                   <Badge variant="secondary" className="text-sm">
-                    {quotes.length} {quotes.length === 1 ? dict.authors.quote : dict.authors.quotes}
+                    {totalQuotes}{" "}
+                    {totalQuotes === 1
+                      ? dict.authors.quote
+                      : dict.authors.quotes}
                   </Badge>
                 </div>
 
                 {/* Author bio */}
                 {author.bio && (
-                  <p className={`text-muted-foreground mb-4 ${isRtl ? "text-right" : ""}`}>{author.bio}</p>
+                  <p
+                    className={`text-muted-foreground mb-4 ${isRtl ? "text-right" : ""}`}
+                  >
+                    {author.bio}
+                  </p>
                 )}
 
                 {/* Social links */}
@@ -201,11 +245,29 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         ) : (
           <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {quotes.map((quote) => (
-              <QuoteCard key={quote.id} quote={quote} lang={lang} dictionary={dict.quotes} hideAuthor />
+              <QuoteCard
+                key={quote.id}
+                quote={quote}
+                lang={lang}
+                dictionary={dict.quotes}
+                hideAuthor
+              />
             ))}
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="mt-12">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              lang={lang}
+              dictionary={dict.pagination}
+              baseUrl={`/${lang}/authors/${id}`}
+            />
           </div>
         )}
       </div>
     </>
-  )
+  );
 }

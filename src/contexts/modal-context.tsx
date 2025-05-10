@@ -13,7 +13,8 @@ interface ModalContextType {
   closeModal: () => void
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined)
+// Export the context so it can be accessed directly with useContext
+export const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)

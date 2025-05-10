@@ -1,47 +1,51 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { ArrowLeft, Quote } from "lucide-react"
-import { getDictionary } from "@/dictionaries"
-import { getQuoteById, generateStaticParams as generateQuoteParams } from "@/lib/quotes"
-import { notFound } from "next/navigation"
-import { ShareButtons } from "@/components/share-buttons"
-import type { Metadata, ResolvingMetadata } from 'next'
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ArrowLeft, Quote } from "lucide-react";
+import { getDictionary } from "@/dictionaries";
+import {
+  getQuoteById,
+  generateStaticParams as generateQuoteParams,
+} from "@/lib/quotes";
+import { notFound } from "next/navigation";
+import { ShareButtons } from "@/components/share-buttons";
+import type { Metadata, ResolvingMetadata } from "next";
 
-import { QuoteStructuredData } from "@/components/structured-data"
-import { Badge } from "@/components/ui/badge"
+import { QuoteStructuredData } from "@/components/structured-data";
+import { Badge } from "@/components/ui/badge";
 
 type QuotePageProps = {
-  params: Promise<{ lang: string, id: string }>
-}
- 
-export const revalidate = 2592000
+  params: Promise<{ lang: string; id: string }>;
+};
+
+export const revalidate = 2592000;
 
 export async function generateStaticParams() {
-  return generateQuoteParams()
+  return generateQuoteParams();
 }
 
 export async function generateMetadata(
   { params }: QuotePageProps,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // Ensure params.lang exists
-  const { lang = "en" } = await params ?? {};
-  const dict = await getDictionary(lang)
+  const { lang = "en" } = (await params) ?? {};
+  const dict = await getDictionary(lang);
   const { id } = await params;
-  const quote = await getQuoteById(id, lang)
+  const quote = await getQuoteById(id, lang);
 
   if (!quote) {
     return {
       title: dict.quotes.notFound,
-    }
+    };
   }
 
   // Create the URL for sharing
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://quotes-website.com"
-  const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`
-  const twitterImageUrl = `${quoteUrl}/twitter-image`
-  const ogImageUrl = `${quoteUrl}/opengraph-image`
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://quotes-website.com";
+  const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`;
+  const twitterImageUrl = `${quoteUrl}/twitter-image`;
+  const ogImageUrl = `${quoteUrl}/opengraph-image`;
 
   return {
     title: `${dict.quotes.quoteBy} ${quote.author.name}`,
@@ -77,25 +81,24 @@ export async function generateMetadata(
       "pinterest:url": quoteUrl,
       "pinterest:media": ogImageUrl,
     },
-  }
+  };
 }
 
 export default async function QuotePage({ params }: QuotePageProps) {
   // Ensure params.lang exists
-  const { lang = "en" } = await params ?? {};
-  const dict = await getDictionary(lang)
+  const { lang = "en" } = (await params) ?? {};
+  const dict = await getDictionary(lang);
   const { id } = await params;
-  const quote = await getQuoteById(id, lang)
+  const quote = await getQuoteById(id, lang);
 
   if (!quote) {
-    notFound()
+    notFound();
   }
 
   // Create the URL for sharing
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
-  const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
+  const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`;
 
-  
   return (
     <>
       {/* Add structured data */}
@@ -128,21 +131,37 @@ export default async function QuotePage({ params }: QuotePageProps) {
               </blockquote>
 
               {/* Tags - check if tags exist and have length */}
-              {quote.tags && Array.isArray(quote.tags) && quote.tags.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-2 mb-8">
-                  {quote.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
+              {quote.tags &&
+                Array.isArray(quote.tags) &&
+                quote.tags.length > 0 && (
+                  <div className="flex flex-wrap justify-center gap-2 mb-8">
+                    {quote.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        href={`/${lang}/tags/${encodeURIComponent(tag)}`}
+                      >
+                        <Badge
+                          variant="secondary"
+                          className="hover:bg-secondary/80 cursor-pointer"
+                        >
+                          {tag}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                )}
 
               {/* Author info */}
               <div className="flex flex-col items-center gap-4 mb-8">
                 <Avatar className="h-16 w-16 rounded-lg">
-                  <AvatarImage src={quote.author.avatar} alt={quote.author.name} className="object-cover" />
-                  <AvatarFallback className="rounded-lg text-lg">{quote.author.name.charAt(0)}</AvatarFallback>
+                  <AvatarImage
+                    src={quote.author.avatar || "/placeholder.svg"}
+                    alt={quote.author.name}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="rounded-lg text-lg">
+                    {quote.author.name.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <Link
                   href={`/${lang}/authors/${quote.author.username}`}
@@ -165,7 +184,5 @@ export default async function QuotePage({ params }: QuotePageProps) {
         </div>
       </div>
     </>
-  )
+  );
 }
-
-

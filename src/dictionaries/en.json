@@ -12,7 +12,11 @@
   },
   "home": {
     "title": "Inspirational Sayings",
-    "description": "Discover wisdom from the world's greatest minds."
+    "description": "Discover wisdom from the world's greatest minds.",
+    "featuredAuthors": "Featured Authors",
+    "popularTags": "Popular Topics",
+    "exploreMore": "Explore More Wisdom",
+    "exploreMoreText": "Discover more inspirational quotes from our collection of authors and topics."
   },
   "quotes": {
     "quoteBy": "Saying by",
@@ -23,6 +27,7 @@
     "shareOnFacebook": "Share on Facebook",
     "shareOnLinkedIn": "Share on LinkedIn",
     "share": "Share this saying",
+    "noQuotes": "No quotes found",
     "viewFullPage": "View full page"
   },
   "authors": {
@@ -34,7 +39,17 @@
     "quotes": "sayings",
     "noQuotes": "No sayings found for this author.",
     "notFound": "Author not found",
-    "description": "Browse sayings from famous authors and personalities."
+    "description": "Browse sayings from famous authors and personalities.",
+    "noAuthors": "No authors found"
+  },
+  "tags": {
+    "allTags": "All Topics",
+    "quotesWithTag": "Quotes with topic",
+    "exploreQuotesWithTag": "Explore quotes with the topic",
+    "noQuotes": "No quotes found with this topic.",
+    "noTags": "No topics found",
+    "description": "Browse quotes by topic and discover wisdom across different themes.",
+    "popularTags": "Popular Topics"
   },
   "pagination": {
     "previous": "Previous",

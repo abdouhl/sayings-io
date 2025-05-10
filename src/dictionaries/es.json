@@ -12,7 +12,11 @@
   },
   "home": {
     "title": "Frases Inspiradoras",
-    "description": "Descubre la sabiduría de las mentes más brillantes del mundo."
+    "description": "Descubre la sabiduría de las mentes más brillantes del mundo.",
+    "featuredAuthors": "Autores Destacados",
+    "popularTags": "Temas Populares",
+    "exploreMore": "Explora Más Sabiduría",
+    "exploreMoreText": "Descubre más frases inspiradoras de nuestra colección de autores y temas."
   },
   "quotes": {
     "quoteBy": "Frase de",
@@ -22,7 +26,8 @@
     "shareOnTwitter": "Compartir en Twitter",
     "shareOnFacebook": "Compartir en Facebook",
     "shareOnLinkedIn": "Compartir en LinkedIn",
-    "share": "Compartir esta frase"
+    "share": "Compartir esta frase",
+    "noQuotes": "No se encontraron frases"
   },
   "authors": {
     "allAuthors": "Todos los Autores",
@@ -33,7 +38,17 @@
     "quotes": "frases",
     "noQuotes": "No se encontraron frases para este autor.",
     "notFound": "Autor no encontrado",
-    "description": "Explora frases de autores y personalidades famosas."
+    "description": "Explora frases de autores y personalidades famosas.",
+    "noAuthors": "No se encontraron autores"
+  },
+  "tags": {
+    "allTags": "Todos los Temas",
+    "quotesWithTag": "Frases con el tema",
+    "exploreQuotesWithTag": "Explora frases con el tema",
+    "noQuotes": "No se encontraron frases con este tema.",
+    "noTags": "No se encontraron temas",
+    "description": "Explora frases por tema y descubre sabiduría en diferentes temáticas.",
+    "popularTags": "Temas Populares"
   },
   "pagination": {
     "previous": "Anterior",
