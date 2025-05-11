@@ -8,8 +8,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { rtlLocales } from "@/middleware";
 import { QuoteIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useContext } from "react"
-import { ModalContext } from "@/contexts/modal-context"
+import { useContext } from "react";
+import { ModalContext } from "@/contexts/modal-context";
 
 interface QuoteCardProps {
   quote: Quote;
@@ -27,9 +27,8 @@ export function QuoteCard({
   dictionary = { quoteBy: "Quote by" },
   hideAuthor = false,
 }: QuoteCardProps) {
-  
   // Safely try to access the modal context
-  const modalContext = useContext(ModalContext)
+  const modalContext = useContext(ModalContext);
 
   // Safely check if lang is defined before using it
   const isRtl = rtlLocales.includes(lang);
@@ -37,13 +36,13 @@ export function QuoteCard({
   // Handle quote click to open modal
   const handleQuoteClick = (e: React.MouseEvent) => {
     e.preventDefault();
-     // Only use the modal if the context is available
+    // Only use the modal if the context is available
     if (modalContext?.openModal) {
-      modalContext.openModal(quote, lang, dictionary)
+      modalContext.openModal(quote, lang, dictionary);
     } else {
       // If modal context is not available, navigate to the quote page
-      window.location.href = `/${lang}/quotes/${quote.id}`
-    } 
+      window.location.href = `/${lang}/quotes/${quote.id}`;
+    }
   };
 
   // Prevent tag clicks from opening the quote modal

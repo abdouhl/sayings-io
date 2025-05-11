@@ -1,50 +1,84 @@
-import type React from "react";
-import { getDictionary } from "@/dictionaries";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { ThemeProvider } from "@/components/theme-provider";
-import type { Metadata } from "next";
-import "../globals.css";
+import type React from "react"
+import { Inter } from "next/font/google"
+import "../globals.css"
+import { Navbar } from "@/components/navbar"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Footer } from "@/components/footer"
+import { getDictionary } from "@/dictionaries"
+import type { Metadata } from "next"
+import { locales, rtlLocales } from "@/middleware"
+import { ModalProvider } from "@/contexts/modal-context"
+import { QuoteModal } from "@/components/quote-modal"
+import { WebsiteStructuredData } from "@/components/structured-data"
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | Sayings",
-    default: "Sayings - Inspirational Quotes",
-  },
-  description:
-    "Discover inspirational quotes from famous authors and thinkers.",
-};
+// Fix the font configuration - use separate subsets instead of combining them
+const inter = Inter({
+  subsets: ["latin"],
+  // Don't include Arabic in the font subset as it's causing the unicode escape error
+  // We'll use system fonts for Arabic text
+  display: "swap",
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { lang: string }
+}): Promise<Metadata> {
+  const dict = await getDictionary(params.lang)
+
+  return {
+    title: {
+      default: dict.metadata.title,
+      template: `%s | ${dict.metadata.title}`,
+    },
+    description: dict.metadata.description,
+    openGraph: {
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      type: "website",
+      locale: params.lang,
+      alternateLocale: locales.filter((locale) => locale !== params.lang),
+    },
+    viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  }
+}
+
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }))
+}
 
 export default async function RootLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
-  params: { lang: string };
+  children: React.ReactNode
+  params: { lang: string }
 }) {
-  const lang = params?.lang || "en";
-  const dict = await getDictionary(lang);
-  const isRtl = lang === "ar";
+  const dict = await getDictionary(params.lang)
+  const isRtl = rtlLocales.includes(params.lang)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"
+  const isHomePage = true // You may want to determine this dynamically
 
   return (
-    <html
-      lang={lang}
-      dir={isRtl ? "rtl" : "ltr"}
-      className={isRtl ? "rtl" : "ltr"}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar
-            lang={lang}
-            dictionary={dict.navigation}
-            isRtl={isRtl}
-            isHomePage={true}
-          />
-          <main className="flex-1">{children}</main>
-          <Footer lang={lang} dictionary={dict.footer} />
+    <html lang={params.lang} dir={isRtl ? "rtl" : "ltr"} suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+      </head>
+      <body className={`${inter.className} ${isRtl ? "rtl" : "ltr"}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ModalProvider>
+            <div className="min-h-screen flex flex-col">
+              <Navbar lang={params.lang} dictionary={dict.navigation} isRtl={isRtl} isHomePage={isHomePage} />
+              <main className="flex-1">{children}</main>
+              <Footer lang={params.lang} dictionary={dict.footer} isRtl={isRtl} />
+              <QuoteModal />
+            </div>
+          </ModalProvider>
+          <WebsiteStructuredData baseUrl={baseUrl} />
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
+
