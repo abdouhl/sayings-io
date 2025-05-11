@@ -27,7 +27,9 @@
     "shareOnFacebook": "Compartir en Facebook",
     "shareOnLinkedIn": "Compartir en LinkedIn",
     "share": "Compartir esta frase",
-    "noQuotes": "No se encontraron frases"
+    "noQuotes": "No se encontraron frases",
+    "relatedQuotes": "Frases Relacionadas",
+    "viewMore": "Ver Más"
   },
   "authors": {
     "allAuthors": "Todos los Autores",
@@ -42,13 +44,16 @@
     "noAuthors": "No se encontraron autores"
   },
   "tags": {
-    "allTags": "Todos los Temas",
+    "allTags": "Temas",
     "quotesWithTag": "Frases con el tema",
     "exploreQuotesWithTag": "Explora frases con el tema",
     "noQuotes": "No se encontraron frases con este tema.",
     "noTags": "No se encontraron temas",
     "description": "Explora frases por tema y descubre sabiduría en diferentes temáticas.",
-    "popularTags": "Temas Populares"
+    "popularTags": "Temas Populares",
+    "exploreTags": "Explorar Temas",
+    "sortByPopularity": "Ordenar por popularidad",
+    "sortAlphabetically": "Ordenar alfabéticamente"
   },
   "pagination": {
     "previous": "Anterior",

@@ -1,147 +1,240 @@
-import { cache } from "react"
-import sql from "./db"
-import type { Quote } from "@/types/quote"
+import { cache } from "react";
+import sql from "./db";
+import type { Quote } from "@/types/quote";
 
 // Get all quotes with pagination
-export const getQuotes = cache(async (lang: string, page = 1, limit = 10): Promise<Quote[]> => {
-  try {
-    const offset = (page - 1) * limit
-
-    // First, check if the tags column exists
-    let hasTagsColumn = false
+export const getQuotes = cache(
+  async (lang: string, page = 1, limit = 10): Promise<Quote[]> => {
     try {
-      const columnCheck = await sql`
+      const offset = (page - 1) * limit;
+
+      // First, check if the tags column exists
+      let hasTagsColumn = false;
+      try {
+        const columnCheck = await sql`
         SELECT column_name 
         FROM information_schema.columns 
         WHERE table_name = 'quotes' AND column_name = 'tags'
-      `
-      hasTagsColumn = (columnCheck as any[]).length > 0
-    } catch (error) {
-      console.error("Error checking for tags column:", error)
-      // Continue without tags
-    }
+      `;
+        hasTagsColumn = (columnCheck as any[]).length > 0;
+      } catch (error) {
+        console.error("Error checking for tags column:", error);
+        // Continue without tags
+      }
 
-    // Use different queries based on whether tags column exists
-    let quotes
-    if (hasTagsColumn) {
-      quotes = await sql`
+      // Use different queries based on whether tags column exists
+      let quotes;
+      if (hasTagsColumn) {
+        quotes = await sql`
       SELECT q.id, q.text, q.tags, a.username as author_username, a.name as author_name, a.avatar as author_avatar
       FROM quotes q
       JOIN authors a ON q.author_username = a.username
       WHERE q.language = ${lang}
       ORDER BY q.created_at DESC
       LIMIT ${limit} OFFSET ${offset}
-    `
-    } else {
-      quotes = await sql`
+    `;
+      } else {
+        quotes = await sql`
         SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
         FROM quotes q
         JOIN authors a ON q.author_username = a.username
         WHERE q.language = ${lang}
         ORDER BY q.created_at DESC
         LIMIT ${limit} OFFSET ${offset}
-      `
-    }
+      `;
+      }
 
-    return (quotes as any[]).map((q) => ({
-      id: q.id,
-      text: q.text,
-      tags: q.tags || [],
-      author: {
-        username: q.author_username,
-        name: q.author_name,
-        avatar: q.author_avatar,
-      },
-    }))
-  } catch (error) {
-    console.error("Error fetching quotes:", error)
-    // Return empty array instead of throwing to prevent page from crashing
-    return []
-  }
-})
+      return (quotes as any[]).map((q) => ({
+        id: q.id,
+        text: q.text,
+        tags: q.tags || [],
+        author: {
+          username: q.author_username,
+          name: q.author_name,
+          avatar: q.author_avatar,
+        },
+      }));
+    } catch (error) {
+      console.error("Error fetching quotes:", error);
+      // Return empty array instead of throwing to prevent page from crashing
+      return [];
+    }
+  },
+);
 
 // Get quote by ID
-export const getQuoteById = cache(async (id: string, lang: string): Promise<Quote | null> => {
-  try {
-    // First, check if the tags column exists
-    let hasTagsColumn = false
+export const getQuoteById = cache(
+  async (id: string, lang: string): Promise<Quote | null> => {
     try {
-      const columnCheck = await sql`
+      // First, check if the tags column exists
+      let hasTagsColumn = false;
+      try {
+        const columnCheck = await sql`
         SELECT column_name 
         FROM information_schema.columns 
         WHERE table_name = 'quotes' AND column_name = 'tags'
-      `
-      hasTagsColumn = (columnCheck as any[]).length > 0
-    } catch (error) {
-      console.error("Error checking for tags column:", error)
-      // Continue without tags
-    }
+      `;
+        hasTagsColumn = (columnCheck as any[]).length > 0;
+      } catch (error) {
+        console.error("Error checking for tags column:", error);
+        // Continue without tags
+      }
 
-    // Use different queries based on whether tags column exists
-    let quotes
-    if (hasTagsColumn) {
-      quotes = await sql`
+      // Use different queries based on whether tags column exists
+      let quotes;
+      if (hasTagsColumn) {
+        quotes = await sql`
       SELECT q.id, q.text, q.tags, a.username as author_username, a.name as author_name, a.avatar as author_avatar
       FROM quotes q
       JOIN authors a ON q.author_username = a.username
       WHERE q.id = ${id}::uuid AND q.language = ${lang}
-    `
-    } else {
-      quotes = await sql`
+    `;
+      } else {
+        quotes = await sql`
         SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
         FROM quotes q
         JOIN authors a ON q.author_username = a.username
         WHERE q.id = ${id}::uuid AND q.language = ${lang}
-      `
-    }
+      `;
+      }
 
-    if ((quotes as any[]).length === 0) {
-      return null
-    }
+      if ((quotes as any[]).length === 0) {
+        return null;
+      }
 
-    const q = (quotes as any[])[0]
-    return {
-      id: q.id,
-      text: q.text,
-      tags: q.tags || [],
-      author: {
-        username: q.author_username,
-        name: q.author_name,
-        avatar: q.author_avatar,
-      },
+      const q = (quotes as any[])[0];
+      return {
+        id: q.id,
+        text: q.text,
+        tags: q.tags || [],
+        author: {
+          username: q.author_username,
+          name: q.author_name,
+          avatar: q.author_avatar,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching quote by ID:", error);
+      return null;
     }
-  } catch (error) {
-    console.error("Error fetching quote by ID:", error)
-    return null
-  }
-})
+  },
+);
 
 // Count total quotes
 export const countQuotes = cache(async (lang: string): Promise<number> => {
   try {
     const result = await sql`
       SELECT COUNT(*) as count FROM quotes WHERE language = ${lang}
-    `
-    return Number.parseInt((result as any[])[0].count)
+    `;
+    return Number.parseInt((result as any[])[0].count);
   } catch (error) {
-    console.error("Error counting quotes:", error)
-    return 0
+    console.error("Error counting quotes:", error);
+    return 0;
   }
-})
+});
 
 // Generate static params for ISR
 export async function generateStaticParams() {
   try {
     const quotes = await sql`
       SELECT id FROM quotes LIMIT 100
-    `
+    `;
 
     return (quotes as any[]).map((quote) => ({
       id: quote.id,
-    }))
+    }));
   } catch (error) {
-    console.error("Error generating static params for quotes:", error)
-    return []
+    console.error("Error generating static params for quotes:", error);
+    return [];
   }
 }
 
+// Get related quotes based on author and tags
+export const getRelatedQuotes = cache(
+  async (
+    currentQuoteId: string,
+    authorUsername: string,
+    tags: string[],
+    lang: string,
+    limit = 3,
+  ): Promise<Quote[]> => {
+    try {
+      // Check if the tags column exists
+      let hasTagsColumn = false;
+      try {
+        const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'quotes' AND column_name = 'tags'
+      `;
+        hasTagsColumn = (columnCheck as any[]).length > 0;
+      } catch (error) {
+        console.error("Error checking for tags column:", error);
+        // Continue without tags
+      }
+
+      // If we have tags, use them for better related quotes
+      if (hasTagsColumn && tags.length > 0) {
+        // First try to get quotes with the same tags
+        const quotes = await sql`
+        SELECT q.id, q.text, q.tags, a.username as author_username, a.name as author_name, a.avatar as author_avatar,
+               (
+                 CASE 
+                   WHEN q.author_username = ${authorUsername} THEN 2
+                   ELSE 0
+                 END
+                 +
+                 CASE 
+                   WHEN q.tags && ${tags}::text[] THEN 1
+                   ELSE 0
+                 END
+               ) as relevance_score
+        FROM quotes q
+        JOIN authors a ON q.author_username = a.username
+        WHERE q.id != ${currentQuoteId}::uuid 
+          AND q.language = ${lang}
+          AND (q.author_username = ${authorUsername} OR q.tags && ${tags}::text[])
+        ORDER BY relevance_score DESC, q.created_at DESC
+        LIMIT ${limit}
+      `;
+
+        return (quotes as any[]).map((q) => ({
+          id: q.id,
+          text: q.text,
+          tags: q.tags || [],
+          author: {
+            username: q.author_username,
+            name: q.author_name,
+            avatar: q.author_avatar,
+          },
+        }));
+      } else {
+        // Fallback to just getting quotes by the same author
+        const quotes = await sql`
+        SELECT q.id, q.text, a.username as author_username, a.name as author_name, a.avatar as author_avatar
+        FROM quotes q
+        JOIN authors a ON q.author_username = a.username
+        WHERE q.id != ${currentQuoteId}::uuid 
+          AND q.language = ${lang}
+          AND q.author_username = ${authorUsername}
+        ORDER BY q.created_at DESC
+        LIMIT ${limit}
+      `;
+
+        return (quotes as any[]).map((q) => ({
+          id: q.id,
+          text: q.text,
+          tags: [],
+          author: {
+            username: q.author_username,
+            name: q.author_name,
+            avatar: q.author_avatar,
+          },
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching related quotes:", error);
+      return [];
+    }
+  },
+);

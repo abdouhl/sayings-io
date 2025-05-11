@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowRight, Tag, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import HeroSection from "@/components/hero-section";
 
 type HomePageProps = {
   params: Promise<{ lang: string }>;
@@ -30,8 +31,8 @@ export async function generateMetadata(
   const dict = await getDictionary(lang);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
   return {
-    title: dict.home.title,
-    description: dict.home.description,
+    title: dict.metadata.title,
+    description: dict.metadata.description,
     alternates: {
       canonical: `/${lang}`,
       languages: {
@@ -39,30 +40,31 @@ export async function generateMetadata(
         es: "/es",
         ar: "/ar",
         fr: "/fr",
+        pt: "/pt",
       },
     },
     openGraph: {
-      title: dict.home.title,
-      description: dict.home.description,
+      title: dict.metadata.title,
+      description: dict.metadata.description,
       type: "website",
       locale: lang,
       url: `${baseUrl}/${lang}`,
       siteName: "Sayings - Inspirational Quotes",
       images: [
         {
-          url: `${baseUrl}/api/og?title=${encodeURIComponent(dict.home.title)}`,
+          url: `${baseUrl}/api/og?title=${encodeURIComponent(dict.metadata.title)}`,
           width: 1200,
           height: 630,
-          alt: dict.home.title,
+          alt: dict.metadata.title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: dict.home.title,
-      description: dict.home.description,
+      title: dict.metadata.title,
+      description: dict.metadata.description,
       images: [
-        `${baseUrl}/api/og?title=${encodeURIComponent(dict.home.title)}`,
+        `${baseUrl}/api/og?title=${encodeURIComponent(dict.metadata.title)}`,
       ],
     },
     keywords: [
@@ -132,157 +134,162 @@ export default async function Home({ params, searchParams }: HomePageProps) {
     return colors[sum % colors.length];
   };
 
-  return (
-    <div className="container mx-auto py-6 md:py-8 px-4">
-      <div className="max-w-3xl mx-auto text-center mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          {dict.home.title}
-        </h1>
-        <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-          {dict.home.description}
-        </p>
-      </div>
+  // Get the title and description for the hero section
+  const heroTitle = dict.metadata?.title || "Sayings";
+  const heroDescription = dict.home?.description || "Free quote compendium";
 
-      {!databaseInitialized ? (
-        <div className="my-12">
-          <DatabaseInitializer />
-        </div>
-      ) : (
-        <>
-          <div className="mb-16">
-            <Suspense
-              fallback={
-                <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {Array.from({ length: quotesPerPage }).map((_, i) => (
-                    <QuoteCardSkeleton key={i} />
+  return (
+    <>
+      {/* Hero Section */}
+      <HeroSection
+        lang={lang}
+        title={heroTitle}
+        description={heroDescription}
+      />
+
+      <div className="container mx-auto py-6 md:py-8 px-4">
+        {!databaseInitialized ? (
+          <div className="my-12">
+            <DatabaseInitializer />
+          </div>
+        ) : (
+          <>
+            <div className="mb-16">
+              <Suspense
+                fallback={
+                  <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {Array.from({ length: quotesPerPage }).map((_, i) => (
+                      <QuoteCardSkeleton key={i} />
+                    ))}
+                  </div>
+                }
+              >
+                {/* Use the QuoteProvider to fetch and render quotes */}
+                <QuoteProvider
+                  lang={lang}
+                  currentPage={currentPage}
+                  quotesPerPage={quotesPerPage}
+                />
+              </Suspense>
+
+              <div className="mt-8 md:mt-12">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  lang={lang}
+                  dictionary={dict.pagination}
+                />
+              </div>
+            </div>
+
+            {/* Featured Authors Section */}
+            {featuredAuthors.length > 0 && (
+              <section className="mb-16">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <Users className="h-5 w-5 text-primary" />
+                    {dict.home.featuredAuthors || "Featured Authors"}
+                  </h2>
+                  <Link
+                    href={`/${lang}/authors`}
+                    className="text-sm text-primary hover:underline flex items-center gap-1"
+                  >
+                    {dict.authors.allAuthors}
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {featuredAuthors.map((author) => (
+                    <Link
+                      key={author.username}
+                      href={`/${lang}/authors/${author.username}`}
+                      className="flex flex-col items-center p-4 bg-card border rounded-lg hover:shadow-md transition-shadow text-center group"
+                    >
+                      <Avatar className="h-16 w-16 mb-3 rounded-lg">
+                        <AvatarImage
+                          src={author.avatar || "/placeholder.svg"}
+                          alt={author.name}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="rounded-lg">
+                          {author.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <h3 className="font-medium group-hover:text-primary transition-colors">
+                        {author.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {author.quoteCount}{" "}
+                        {author.quoteCount === 1
+                          ? dict.authors.quote
+                          : dict.authors.quotes}
+                      </p>
+                    </Link>
                   ))}
                 </div>
-              }
-            >
-              {/* Use the QuoteProvider to fetch and render quotes */}
-              <QuoteProvider
-                lang={lang}
-                currentPage={currentPage}
-                quotesPerPage={quotesPerPage}
-              />
-            </Suspense>
+              </section>
+            )}
 
-            <div className="mt-8 md:mt-12">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                lang={lang}
-                dictionary={dict.pagination}
-              />
-            </div>
-          </div>
-
-          {/* Featured Authors Section */}
-          {featuredAuthors.length > 0 && (
-            <section className="mb-16">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" />
-                  {dict.home.featuredAuthors || "Featured Authors"}
-                </h2>
-                <Link
-                  href={`/${lang}/authors`}
-                  className="text-sm text-primary hover:underline flex items-center gap-1"
-                >
-                  {dict.authors.allAuthors}
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {featuredAuthors.map((author) => (
+            {/* Popular Tags Section */}
+            {popularTags.length > 0 && (
+              <section className="mb-16">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <Tag className="h-5 w-5 text-primary" />
+                    {dict.home.popularTags || "Popular Topics"}
+                  </h2>
                   <Link
-                    key={author.username}
-                    href={`/${lang}/authors/${author.username}`}
-                    className="flex flex-col items-center p-4 bg-card border rounded-lg hover:shadow-md transition-shadow text-center group"
+                    href={`/${lang}/tags`}
+                    className="text-sm text-primary hover:underline flex items-center gap-1"
                   >
-                    <Avatar className="h-16 w-16 mb-3 rounded-lg">
-                      <AvatarImage
-                        src={author.avatar || "/placeholder.svg"}
-                        alt={author.name}
-                        className="object-cover"
-                      />
-                      <AvatarFallback className="rounded-lg">
-                        {author.name.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-medium group-hover:text-primary transition-colors">
-                      {author.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {author.quoteCount}{" "}
-                      {author.quoteCount === 1
-                        ? dict.authors.quote
-                        : dict.authors.quotes}
-                    </p>
+                    {dict.tags.allTags || "All Topics"}
+                    <ArrowRight className="h-3 w-3" />
                   </Link>
-                ))}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {popularTags.map((tag) => (
+                    <Link
+                      key={tag.name}
+                      href={`/${lang}/tags/${encodeURIComponent(tag.name)}`}
+                      className={`${getTagColor(tag.name)} px-3 py-1 rounded-full transition-colors text-sm`}
+                    >
+                      {tag.name}{" "}
+                      <span className="opacity-70">({tag.count})</span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Call to Action */}
+            <section className="bg-primary/5 rounded-xl p-6 md:p-8 text-center mb-8">
+              <h2 className="text-xl md:text-2xl font-bold mb-3">
+                {dict.home.exploreMore || "Explore More Wisdom"}
+              </h2>
+              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                {dict.home.exploreMoreText ||
+                  "Discover more inspirational quotes from our collection of authors and topics."}
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button asChild>
+                  <Link href={`/${lang}/authors`}>
+                    <Users className="mr-2 h-4 w-4" />
+                    {dict.authors.allAuthors}
+                  </Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href={`/${lang}/tags`}>
+                    <Tag className="mr-2 h-4 w-4" />
+                    {dict.tags.allTags || "Browse Topics"}
+                  </Link>
+                </Button>
               </div>
             </section>
-          )}
-
-          {/* Popular Tags Section */}
-          {popularTags.length > 0 && (
-            <section className="mb-16">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Tag className="h-5 w-5 text-primary" />
-                  {dict.home.popularTags || "Popular Topics"}
-                </h2>
-                <Link
-                  href={`/${lang}/tags`}
-                  className="text-sm text-primary hover:underline flex items-center gap-1"
-                >
-                  {dict.tags.allTags || "All Topics"}
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {popularTags.map((tag) => (
-                  <Link
-                    key={tag.name}
-                    href={`/${lang}/tags/${encodeURIComponent(tag.name)}`}
-                    className={`${getTagColor(tag.name)} px-3 py-1 rounded-full transition-colors text-sm`}
-                  >
-                    {tag.name} <span className="opacity-70">({tag.count})</span>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Call to Action */}
-          <section className="bg-primary/5 rounded-xl p-6 md:p-8 text-center mb-8">
-            <h2 className="text-xl md:text-2xl font-bold mb-3">
-              {dict.home.exploreMore || "Explore More Wisdom"}
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              {dict.home.exploreMoreText ||
-                "Discover more inspirational quotes from our collection of authors and topics."}
-            </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Button asChild>
-                <Link href={`/${lang}/authors`}>
-                  <Users className="mr-2 h-4 w-4" />
-                  {dict.authors.allAuthors}
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href={`/${lang}/tags`}>
-                  <Tag className="mr-2 h-4 w-4" />
-                  {dict.tags.allTags || "Browse Topics"}
-                </Link>
-              </Button>
-            </div>
-          </section>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }

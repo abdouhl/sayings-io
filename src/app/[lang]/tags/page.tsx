@@ -2,11 +2,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Tag } from "lucide-react";
 import { getDictionary } from "@/dictionaries";
-import { getAllTags } from "@/lib/tags";
+import { getAllTags, countTags } from "@/lib/tags";
 import type { Metadata, ResolvingMetadata } from "next";
+import { Pagination } from "@/components/pagination";
 
 type TagsPageProps = {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<{ page: string; sort: string }>;
 };
 
 export const revalidate = 2592000;
@@ -14,8 +16,9 @@ export const revalidate = 2592000;
 export async function generateMetadata({
   params,
 }: TagsPageProps): Promise<Metadata> {
-  const { lang = "en" } = (await params) ?? {} 
+  const { lang = "en" } = (await params) ?? {};
   const dict = await getDictionary(lang);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
 
   return {
     title: dict.tags.allTags,
@@ -24,16 +27,57 @@ export async function generateMetadata({
       title: dict.tags.allTags,
       description: dict.tags.description,
       type: "website",
+      url: `${baseUrl}/${lang}/tags`,
+    },
+    alternates: {
+      canonical: `${baseUrl}/${lang}/tags`,
+      languages: {
+        en: `${baseUrl}/en/tags`,
+        es: `${baseUrl}/es/tags`,
+        ar: `${baseUrl}/ar/tags`,
+        fr: `${baseUrl}/fr/tags`,
+      },
     },
   };
 }
 
-export default async function TagsPage({ params }: TagsPageProps) {
+export default async function TagsPage({
+  params,
+  searchParams,
+}: TagsPageProps) {
   const { lang = "en" } = (await params) ?? {};
   const dict = await getDictionary(lang);
   const isRtl = lang === "ar";
+  const { page = "1" } = (await searchParams) ?? {};
+  const { sort = "count" } = (await searchParams) ?? {}; // Default sort by count
 
-  const tags = await getAllTags(lang);
+  // Handle pagination
+  const currentPage = Number.parseInt(page);
+  const tagsPerPage = 30;
+  const sortBy = sort; // Default sort by count
+
+  // Get total tags count for pagination
+  let totalTags = 0;
+  try {
+    totalTags = await countTags(lang);
+  } catch (error) {
+    console.error("Error counting tags:", error);
+  }
+
+  const totalPages = Math.max(1, Math.ceil(totalTags / tagsPerPage));
+
+  // Get tags with pagination and sorting
+  let tags: any[] = [];
+  try {
+    tags = await getAllTags(
+      lang,
+      currentPage,
+      tagsPerPage,
+      sortBy as "count" | "name",
+    );
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+  }
 
   // Function to determine tag size based on count
   const getTagSize = (count: number) => {
@@ -72,6 +116,22 @@ export default async function TagsPage({ params }: TagsPageProps) {
             {dict.navigation.backToHome}
           </Button>
         </Link>
+
+        <div className="ml-auto flex gap-2">
+          <Link
+            href={`/${lang}/tags?sort=count`}
+            className={`text-sm ${sortBy === "count" ? "text-primary font-medium" : "text-muted-foreground"}`}
+          >
+            {dict.tags.sortByPopularity || "Sort by popularity"}
+          </Link>
+          <span className="text-muted-foreground">|</span>
+          <Link
+            href={`/${lang}/tags?sort=name`}
+            className={`text-sm ${sortBy === "name" ? "text-primary font-medium" : "text-muted-foreground"}`}
+          >
+            {dict.tags.sortAlphabetically || "Sort alphabetically"}
+          </Link>
+        </div>
       </div>
 
       <div className="max-w-4xl mx-auto text-center mb-12">
@@ -101,6 +161,18 @@ export default async function TagsPage({ params }: TagsPageProps) {
               </Link>
             ))}
           </div>
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className="mt-12">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            lang={lang}
+            dictionary={dict.pagination}
+            baseUrl={`/${lang}/tags${sortBy !== "count" ? `?sort=${sortBy}` : ""}`}
+          />
         </div>
       )}
     </div>

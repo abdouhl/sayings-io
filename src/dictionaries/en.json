@@ -28,7 +28,9 @@
     "shareOnLinkedIn": "Share on LinkedIn",
     "share": "Share this saying",
     "noQuotes": "No quotes found",
-    "viewFullPage": "View full page"
+    "viewFullPage": "View full page",
+    "relatedQuotes": "Related Quotes",
+    "viewMore": "View More"
   },
   "authors": {
     "allAuthors": "All Authors",
@@ -43,13 +45,16 @@
     "noAuthors": "No authors found"
   },
   "tags": {
-    "allTags": "All Topics",
+    "allTags": "Topics",
     "quotesWithTag": "Quotes with topic",
     "exploreQuotesWithTag": "Explore quotes with the topic",
     "noQuotes": "No quotes found with this topic.",
     "noTags": "No topics found",
     "description": "Browse quotes by topic and discover wisdom across different themes.",
-    "popularTags": "Popular Topics"
+    "popularTags": "Popular Topics",
+    "exploreTags": "Explore Topics",
+    "sortByPopularity": "Sort by popularity",
+    "sortAlphabetically": "Sort alphabetically"
   },
   "pagination": {
     "previous": "Previous",

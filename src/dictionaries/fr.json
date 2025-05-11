@@ -12,7 +12,11 @@
   },
   "home": {
     "title": "Citations Inspirantes",
-    "description": "Découvrez la sagesse des plus grands esprits du monde."
+    "description": "Découvrez la sagesse des plus grands esprits du monde.",
+    "featuredAuthors": "Auteurs en Vedette",
+    "popularTags": "Thèmes Populaires",
+    "exploreMore": "Explorez Plus de Sagesse",
+    "exploreMoreText": "Découvrez plus de citations inspirantes de notre collection d'auteurs et de thèmes."
   },
   "quotes": {
     "quoteBy": "Citation de",
@@ -24,7 +28,10 @@
     "shareOnLinkedIn": "Partager sur LinkedIn",
     "shareOnPinterest": "Enregistrer sur Pinterest",
     "downloadImage": "Télécharger en image",
-    "share": "Partager cette citation"
+    "share": "Partager cette citation",
+    "noQuotes": "Aucune citation trouvée",
+    "relatedQuotes": "Citations Connexes",
+    "viewMore": "Voir Plus"
   },
   "authors": {
     "allAuthors": "Tous les Auteurs",
@@ -39,13 +46,16 @@
     "noAuthors": "No authors found"
   },
   "tags": {
-    "allTags": "All Topics",
-    "quotesWithTag": "Quotes with topic",
-    "exploreQuotesWithTag": "Explore quotes with the topic",
-    "noQuotes": "No quotes found with this topic.",
-    "noTags": "No topics found",
-    "description": "Browse quotes by topic and discover wisdom across different themes.",
-    "popularTags": "Popular Topics"
+    "allTags": "Thèmes",
+    "quotesWithTag": "Citations avec le thème",
+    "exploreQuotesWithTag": "Explorer les citations avec le thème",
+    "noQuotes": "Aucune citation trouvée avec ce thème.",
+    "noTags": "Aucun thème trouvé",
+    "description": "Parcourez les citations par thème et découvrez la sagesse à travers différents sujets.",
+    "popularTags": "Thèmes Populaires",
+    "exploreTags": "Explorer les Thèmes",
+    "sortByPopularity": "Trier par popularité",
+    "sortAlphabetically": "Trier par ordre alphabétique"
   },
   "pagination": {
     "previous": "Précédent",

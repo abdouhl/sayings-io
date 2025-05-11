@@ -1,4 +1,11 @@
-import "server-only";
+import type { Locale } from "../middleware.ts";
+
+// Import dictionaries
+import en from "./en.json";
+import es from "./es.json";
+import ar from "./ar.json";
+import fr from "./fr.json";
+import pt from "./pt.json";
 
 export type Dictionary = {
   metadata: {
@@ -106,27 +113,14 @@ const fallbackDictionary: Dictionary = {
   tags: "sooner",
 };
 
+// Create a dictionary object with all locales
 const dictionaries = {
-  en: () =>
-    import("./en.json").then((module) => module.default) as Promise<Dictionary>,
-  es: () =>
-    import("./es.json").then((module) => module.default) as Promise<Dictionary>,
-  ar: () =>
-    import("./ar.json").then((module) => module.default) as Promise<Dictionary>,
-  fr: () =>
-    import("./fr.json").then((module) => module.default) as Promise<Dictionary>,
+  en,
+  es,
+  ar,
+  fr,
+  pt,
 };
 
-export const getDictionary = async (locale: string): Promise<Dictionary> => {
-  try {
-    // Try to get the requested dictionary
-    const dictionary = await (
-      dictionaries[locale as keyof typeof dictionaries] || dictionaries.en
-    )();
-    return dictionary;
-  } catch (error) {
-    console.error(`Error loading dictionary for locale ${locale}:`, error);
-    // Return fallback dictionary if there's an error
-    return fallbackDictionary;
-  }
-};
+export const getDictionary = async (locale: Locale) =>
+  dictionaries[locale as keyof typeof dictionaries];

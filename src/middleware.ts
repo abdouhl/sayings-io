@@ -4,11 +4,14 @@ import { match } from "@formatjs/intl-localematcher"
 import Negotiator from "negotiator"
 
 // List of supported locales
-export const locales = ["en", "es", "ar", "fr"]
+export const locales = ["en", "es", "ar", "fr", "pt"]
 export const defaultLocale = "en"
 
 // Define RTL languages
 export const rtlLocales = ["ar"]
+
+// Define Locale type
+export type Locale = (typeof locales)[number]
 
 // Get the preferred locale from the request
 function getLocale(request: NextRequest) {

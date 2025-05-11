@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowLeft, Quote } from "lucide-react";
+import { ArrowLeft, Quote, TagIcon } from "lucide-react";
 import { getDictionary } from "@/dictionaries";
 import {
   getQuoteById,
+  getRelatedQuotes,
   generateStaticParams as generateQuoteParams,
 } from "@/lib/quotes";
 import { notFound } from "next/navigation";
@@ -13,6 +14,15 @@ import type { Metadata, ResolvingMetadata } from "next";
 
 import { QuoteStructuredData } from "@/components/structured-data";
 import { Badge } from "@/components/ui/badge";
+import { QuoteCard } from "@/components/quote-card";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type QuotePageProps = {
   params: Promise<{ lang: string; id: string }>;
@@ -47,14 +57,19 @@ export async function generateMetadata(
   const twitterImageUrl = `${quoteUrl}/twitter-image`;
   const ogImageUrl = `${quoteUrl}/opengraph-image`;
 
+  // Create a truncated version of the quote for meta titles
+  const shortQuote =
+    quote.text.length > 60 ? `${quote.text.substring(0, 57)}...` : quote.text;
+
   return {
-    title: `${dict.quotes.quoteBy} ${quote.author.name}`,
-    description: quote.text,
+    title: `"${shortQuote}" — ${quote.author.name}`,
+    description: `${quote.text} — Quote by ${quote.author.name}`,
     openGraph: {
-      title: `${dict.quotes.quoteBy} ${quote.author.name}`,
+      title: `"${shortQuote}" — ${quote.author.name}`,
       description: quote.text,
       type: "article",
       authors: [quote.author.name],
+      tags: quote.tags || [],
       images: [
         {
           url: ogImageUrl,
@@ -66,7 +81,7 @@ export async function generateMetadata(
     },
     twitter: {
       card: "summary_large_image",
-      title: `${dict.quotes.quoteBy} ${quote.author.name}`,
+      title: `"${shortQuote}" — ${quote.author.name}`,
       description: quote.text,
       images: [twitterImageUrl],
     },
@@ -81,6 +96,23 @@ export async function generateMetadata(
       "pinterest:url": quoteUrl,
       "pinterest:media": ogImageUrl,
     },
+    alternates: {
+      canonical: quoteUrl,
+      languages: {
+        en: `${baseUrl}/en/quotes/${quote.id}`,
+        es: `${baseUrl}/es/quotes/${quote.id}`,
+        ar: `${baseUrl}/ar/quotes/${quote.id}`,
+        fr: `${baseUrl}/fr/quotes/${quote.id}`,
+      },
+    },
+    keywords: [
+      "quote",
+      "saying",
+      quote.author.name,
+      ...(quote.tags || []),
+      "inspirational quote",
+      "wisdom",
+    ],
   };
 }
 
@@ -99,12 +131,44 @@ export default async function QuotePage({ params }: QuotePageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com";
   const quoteUrl = `${baseUrl}/${lang}/quotes/${quote.id}`;
 
+  // Get related quotes based on author and tags
+  const relatedQuotes = await getRelatedQuotes(
+    quote.id,
+    quote.author.username,
+    quote.tags || [],
+    lang,
+    3,
+  );
+
   return (
     <>
       {/* Add structured data */}
       <QuoteStructuredData quote={quote} lang={lang} baseUrl={baseUrl} />
 
       <div className="container mx-auto py-8 md:py-16 px-4">
+        {/* Breadcrumbs for better navigation and SEO */}
+        <Breadcrumb className="mb-4">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${lang}`}>
+                {dict.navigation.home}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                href={`/${lang}/authors/${quote.author.username}`}
+              >
+                {quote.author.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Quote</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <Link href={`/${lang}`}>
           <Button variant="outline" className="mb-6 md:mb-8">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -181,6 +245,49 @@ export default async function QuotePage({ params }: QuotePageProps) {
               />
             </div>
           </div>
+
+          {/* Related quotes section */}
+          {relatedQuotes.length > 0 && (
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <Quote className="h-5 w-5 text-primary" />
+                {dict.quotes.relatedQuotes || "Related Quotes"}
+              </h2>
+
+              <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedQuotes.map((relatedQuote) => (
+                  <QuoteCard
+                    key={relatedQuote.id}
+                    quote={relatedQuote}
+                    lang={lang}
+                    dictionary={dict.quotes}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Topic exploration section */}
+          {quote.tags && quote.tags.length > 0 && (
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <TagIcon className="h-5 w-5 text-primary" />
+                {dict.tags.exploreTags || "Explore Topics"}
+              </h2>
+
+              <div className="flex flex-wrap gap-3 justify-center">
+                {quote.tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/${lang}/tags/${encodeURIComponent(tag)}`}
+                    className="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-full transition-colors"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

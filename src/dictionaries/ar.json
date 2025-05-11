@@ -12,7 +12,11 @@
   },
   "home": {
     "title": "عبارات ملهمة",
-    "description": "اكتشف الحكمة من أعظم عقول العالم."
+    "description": "اكتشف الحكمة من أعظم عقول العالم.",
+    "featuredAuthors": "المؤلفون البارزون",
+    "popularTags": "المواضيع الشائعة",
+    "exploreMore": "استكشف المزيد من الحكمة",
+    "exploreMoreText": "اكتشف المزيد من الأقوال الملهمة من مجموعتنا من المؤلفين والمواضيع."
   },
   "quotes": {
     "quoteBy": "قول من",
@@ -23,7 +27,10 @@
     "shareOnFacebook": "مشاركة على فيسبوك",
     "shareOnLinkedIn": "مشاركة على لينكد إن",
     "share": "مشاركة هذا القول",
-    "viewFullPage": "هذا القول"
+    "viewFullPage": "هذا القول",
+    "noQuotes": "لم يتم العثور على أقوال",
+    "relatedQuotes": "أقوال ذات صلة",
+    "viewMore": "عرض المزيد"
   },
   "authors": {
     "allAuthors": "جميع المؤلفين",
@@ -38,13 +45,16 @@
     "noAuthors": "No authors found"
   },
   "tags": {
-    "allTags": "All Topics",
-    "quotesWithTag": "Quotes with topic",
-    "exploreQuotesWithTag": "Explore quotes with the topic",
-    "noQuotes": "No quotes found with this topic.",
-    "noTags": "No topics found",
-    "description": "Browse quotes by topic and discover wisdom across different themes.",
-    "popularTags": "Popular Topics"
+    "allTags": "المواضيع",
+    "quotesWithTag": "أقوال بموضوع",
+    "exploreQuotesWithTag": "استكشف الأقوال بموضوع",
+    "noQuotes": "لم يتم العثور على أقوال بهذا الموضوع.",
+    "noTags": "لم يتم العثور على مواضيع",
+    "description": "تصفح الأقوال حسب الموضوع واكتشف الحكمة عبر مختلف المواضيع.",
+    "popularTags": "المواضيع الشائعة",
+    "exploreTags": "استكشف المواضيع",
+    "sortByPopularity": "ترتيب حسب الشعبية",
+    "sortAlphabetically": "ترتيب أبجدي"
   },
   "pagination": {
     "previous": "السابق",

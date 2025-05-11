@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "title": "Sayings - Citações Inspiradoras",
+    "description": "Descubra uma coleção de citações inspiradoras de autores e personalidades famosas."
+  },
+  "navigation": {
+    "home": "Início",
+    "authors": "Autores",
+    "allAuthors": "Todos os Autores",
+    "backToHome": "Voltar ao Início"
+  },
+  "home": {
+    "title": "Citações Inspiradoras",
+    "description": "Descubra a sabedoria das maiores mentes do mundo.",
+    "featuredAuthors": "Autores em Destaque",
+    "popularTags": "Tópicos Populares",
+    "exploreMore": "Explore Mais Sabedoria",
+    "exploreMoreText": "Descubra mais citações inspiradoras da nossa coleção de autores e tópicos."
+  },
+  "quotes": {
+    "quoteBy": "Citação de",
+    "notFound": "Citação não encontrada",
+    "copyToClipboard": "Copiar para a área de transferência",
+    "copied": "Copiado!",
+    "shareOnTwitter": "Compartilhar no Twitter",
+    "shareOnFacebook": "Compartilhar no Facebook",
+    "shareOnLinkedIn": "Compartilhar no LinkedIn",
+    "shareOnPinterest": "Salvar no Pinterest",
+    "downloadImage": "Baixar como imagem",
+    "share": "Compartilhar esta citação",
+    "noQuotes": "Nenhuma citação encontrada",
+    "relatedQuotes": "Citações Relacionadas",
+    "viewMore": "Ver Mais"
+  },
+  "authors": {
+    "allAuthors": "Todos os Autores",
+    "quotesBy": "Citações de",
+    "exploreQuotesBy": "Explore citações inspiradoras de",
+    "viewQuotes": "Ver Citações",
+    "quote": "citação",
+    "quotes": "citações",
+    "noQuotes": "Nenhuma citação encontrada para este autor.",
+    "notFound": "Autor não encontrado",
+    "description": "Navegue por citações de autores e personalidades famosas.",
+    "noAuthors": "Nenhum autor encontrado"
+  },
+  "tags": {
+    "allTags": "Tópicos",
+    "quotesWithTag": "Citações com o tópico",
+    "exploreQuotesWithTag": "Explore citações com o tópico",
+    "noQuotes": "Nenhuma citação encontrada com este tópico.",
+    "noTags": "Nenhum tópico encontrado",
+    "description": "Navegue por citações por tópico e descubra sabedoria em diferentes temas.",
+    "popularTags": "Tópicos Populares",
+    "exploreTags": "Explorar Tópicos",
+    "sortByPopularity": "Ordenar por popularidade",
+    "sortAlphabetically": "Ordenar alfabeticamente"
+  },
+  "pagination": {
+    "previous": "Anterior",
+    "next": "Próximo"
+  },
+  "footer": {
+    "copyright": "Sayings. Todos os direitos reservados.",
+    "about": "Sobre",
+    "contact": "Contato",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço"
+  },
+  "about": {
+    "title": "Sobre Nós",
+    "description": "Saiba mais sobre Sayings e nossa missão de compartilhar sabedoria.",
+    "mission": "Nossa Missão",
+    "missionText": "Na Sayings, acreditamos no poder das palavras para inspirar, motivar e transformar vidas. Nossa missão é coletar e compartilhar a sabedoria dos maiores pensadores do mundo, tornando-a acessível a todos.",
+    "story": "Nossa História",
+    "storyText": "Sayings foi fundada em 2023 por um grupo de entusiastas da literatura que queriam criar uma plataforma onde as pessoas pudessem descobrir e compartilhar citações inspiradoras. O que começou como uma pequena coleção cresceu para uma biblioteca abrangente de sabedoria de diversos autores de diferentes culturas e períodos de tempo.",
+    "values": "Nossos Valores",
+    "value1Title": "Autenticidade",
+    "value1Text": "Verificamos todas as citações para garantir que sejam corretamente atribuídas e representadas com precisão.",
+    "value2Title": "Inclusividade",
+    "value2Text": "Nos esforçamos para incluir vozes e perspectivas diversas de todo o mundo.",
+    "value3Title": "Acessibilidade",
+    "value3Text": "Acreditamos que a sabedoria deve ser acessível a todos, independentemente do idioma ou origem."
+  },
+  "contact": {
+    "title": "Contate-nos",
+    "description": "Entre em contato com a equipe Sayings.",
+    "getInTouch": "Entre em Contato",
+    "getInTouchText": "Tem uma pergunta, sugestão ou apenas quer dizer olá? Adoraríamos ouvir de você!",
+    "formName": "Nome",
+    "formEmail": "Email",
+    "formMessage": "Mensagem",
+    "formSubmit": "Enviar Mensagem",
+    "formSuccess": "Sua mensagem foi enviada. Entraremos em contato em breve!",
+    "formError": "Houve um erro ao enviar sua mensagem. Por favor, tente novamente.",
+    "contactInfo": "Informações de Contato",
+    "email": "Email",
+    "emailAddress": "ola@sayings.com",
+    "followUs": "Siga-nos",
+    "socialText": "Mantenha-se conectado conosco nas redes sociais para inspiração diária."
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "description": "Saiba como coletamos, usamos e protegemos suas informações.",
+    "lastUpdated": "Última Atualização",
+    "introduction": "Introdução",
+    "introductionText": "Esta Política de Privacidade explica como a Sayings coleta, usa e protege suas informações pessoais quando você usa nosso site.",
+    "informationWeCollect": "Informações que Coletamos",
+    "informationWeCollectText": "Podemos coletar informações pessoais como seu nome e endereço de e-mail quando você nos contata ou se inscreve em nossa newsletter. Também coletamos dados de uso para melhorar nosso serviço.",
+    "howWeUseInformation": "Como Usamos Suas Informações",
+    "howWeUseInformationText": "Usamos suas informações para fornecer e melhorar nosso serviço, responder às suas consultas e enviar atualizações se você se inscreveu em nossa newsletter.",
+    "cookies": "Cookies",
+    "cookiesText": "Usamos cookies para melhorar sua experiência em nosso site. Você pode configurar seu navegador para recusar todos ou alguns cookies do navegador, mas isso pode afetar algumas funcionalidades.",
+    "dataProtection": "Proteção de Dados",
+    "dataProtectionText": "Implementamos medidas de segurança apropriadas para proteger suas informações pessoais contra acesso, alteração, divulgação ou destruição não autorizados.",
+    "thirdPartyLinks": "Links de Terceiros",
+    "thirdPartyLinksText": "Nosso site pode conter links para sites de terceiros. Não somos responsáveis pelas práticas de privacidade ou conteúdo desses sites.",
+    "changesPolicy": "Alterações nesta Política",
+    "changesPolicyText": "Podemos atualizar nossa Política de Privacidade de tempos em tempos. Notificaremos você sobre quaisquer alterações publicando a nova Política de Privacidade nesta página."
+  },
+  "terms": {
+    "title": "Termos de Serviço",
+    "description": "Os termos e condições que regem seu uso do Sayings.",
+    "lastUpdated": "Última Atualização",
+    "acceptance": "Aceitação dos Termos",
+    "acceptanceText": "Ao acessar ou usar o Sayings, você concorda em estar vinculado a estes Termos de Serviço e a todas as leis e regulamentos aplicáveis.",
+    "intellectualProperty": "Propriedade Intelectual",
+    "intellectualPropertyText": "Todo o conteúdo deste site, incluindo texto, gráficos, logotipos e citações, é propriedade do Sayings ou de seus fornecedores de conteúdo e é protegido por leis internacionais de direitos autorais.",
+    "userContent": "Conteúdo do Usuário",
+    "userContentText": "Se você enviar conteúdo para nosso site, você nos concede uma licença não exclusiva e livre de royalties para usar, modificar e exibir esse conteúdo.",
+    "prohibitedUses": "Usos Proibidos",
+    "prohibitedUsesText": "Você não pode usar nosso site para qualquer finalidade ilegal ou de qualquer maneira que possa danificar, desativar ou prejudicar o site.",
+    "disclaimer": "Isenção de Responsabilidade",
+    "disclaimerText": "O conteúdo do nosso site é fornecido apenas para fins informativos gerais. Não fazemos garantias sobre a precisão, confiabilidade ou disponibilidade deste conteúdo.",
+    "limitation": "Limitação de Responsabilidade",
+    "limitationText": "Sayings não será responsável por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos resultantes do seu uso ou incapacidade de usar o site.",
+    "changes": "Alterações nos Termos",
+    "changesText": "Reservamo-nos o direito de modificar estes Termos de Serviço a qualquer momento. Seu uso continuado do site após quaisquer alterações indica sua aceitação dos termos modificados."
+  },
+  "notFound": {
+    "title": "Página Não Encontrada",
+    "message": "A página que você está procurando não existe ou foi movida."
+  }
+}

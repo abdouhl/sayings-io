@@ -2,9 +2,52 @@ import { cache } from "react";
 import sql from "./db";
 import type { Quote } from "@/types/quote";
 
-// Get all tags with their quote counts
+// Count total tags
+export const countTags = cache(async (lang: string): Promise<number> => {
+  try {
+    // Check if the tags column exists
+    let hasTagsColumn = false;
+    try {
+      const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'quotes' AND column_name = 'tags'
+      `;
+      hasTagsColumn = (columnCheck as any[]).length > 0;
+    } catch (error) {
+      console.error("Error checking for tags column:", error);
+      return 0;
+    }
+
+    if (!hasTagsColumn) {
+      return 0;
+    }
+
+    // Count distinct tags
+    const result = await sql`
+        WITH tag_counts AS (
+        SELECT unnest(tags) as tag
+        FROM quotes
+        WHERE language = ${lang} AND tags IS NOT NULL
+      )
+      SELECT COUNT(DISTINCT tag) as count
+      FROM tag_counts
+    `;
+    return Number.parseInt((result as any[])[0].count);
+  } catch (error) {
+    console.error("Error counting tags:", error);
+    return 0;
+  }
+});
+
+// Get all tags with their quote counts with pagination and sorting
 export const getAllTags = cache(
-  async (lang: string): Promise<{ name: string; count: number }[]> => {
+  async (
+    lang: string,
+    page = 1,
+    limit = 30,
+    sortBy: "count" | "name" = "count",
+  ): Promise<{ name: string; count: number }[]> => {
     try {
       // Check if the tags column exists
       let hasTagsColumn = false;
@@ -24,8 +67,30 @@ export const getAllTags = cache(
         return [];
       }
 
-      // Get all tags and their counts
-      const result = await sql`
+      const offset = (page - 1) * limit;
+
+      // Get all tags and their counts with pagination and sorting
+      const orderClause =
+        sortBy === "name" ? "ORDER BY name" : "ORDER BY count DESC, name";
+
+      // Use parameterized query instead of unsafe
+      let result;
+
+      if (sortBy === "name") {
+        result = await sql`
+          WITH tag_counts AS (
+            SELECT unnest(tags) as tag, COUNT(*) as count
+            FROM quotes
+            WHERE language = ${lang} AND tags IS NOT NULL
+            GROUP BY tag
+          )
+          SELECT tag as name, count
+          FROM tag_counts
+          ORDER BY name
+          LIMIT ${limit} OFFSET ${offset}
+        `;
+      } else {
+        result = await sql`
       WITH tag_counts AS (
         SELECT unnest(tags) as tag, COUNT(*) as count
         FROM quotes
@@ -35,9 +100,17 @@ export const getAllTags = cache(
       SELECT tag as name, count
       FROM tag_counts
       ORDER BY count DESC, name
+      LIMIT ${limit} OFFSET ${offset}
     `;
+      }
 
-      return (result as any[]).map((row) => ({
+      // Ensure result is an array and map it
+      if (!Array.isArray(result)) {
+        console.error("Expected array result but got:", typeof result);
+        return [];
+      }
+
+      return (result as unknown as any[]).map((row) => ({
         name: row.name,
         count: Number.parseInt(row.count),
       }));
