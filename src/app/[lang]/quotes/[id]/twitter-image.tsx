@@ -72,10 +72,10 @@ export default async function Image({ params }: { params: { lang: string; id: st
 
     // Use author image if available, otherwise use a generated avatar
     const authorImage = quote.author.image
-      ? quote.author.image.startsWith("http")
+    /*  ? quote.author.image.startsWith("http")
         ? quote.author.image
         : `${baseUrl}${quote.author.image}`
-      : `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(quote.author.name)}&backgroundColor=0ea5e9`
+      : `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(quote.author.name)}&backgroundColor=0ea5e9`*/
 
     return new ImageResponse(
       <div
