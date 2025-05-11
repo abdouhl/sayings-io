@@ -28,7 +28,7 @@ export default async function Image({
           <div
             style={{
               fontSize: 48,
-              background: "linear-gradient(135deg, #1e293b, #0f172a)",
+              background: "linear-gradient(to bottom, #1e293b, #0f172a)",
               color: "white",
               width: "100%",
               height: "100%",
@@ -67,7 +67,7 @@ export default async function Image({
 
     const gradientBackground = getGradientColor(quote.author.name);
 
-    // Calculate font size based on text length - INCREASED SIZES for Pinterest
+    // Calculate font size based on text length - INCREASED SIZES
     const getFontSize = (text: string) => {
       if (text.length > 300) return 42;
       if (text.length > 200) return 48;
@@ -81,11 +81,14 @@ export default async function Image({
     const baseUrl =
       process.env.NEXT_PUBLIC_BASE_URL || "https://quotes-website.com";
 
+    // Use absolute URL for placeholder user image
+    const placeholderUserImage = `${baseUrl}/placeholder-user.jpg`;
+
     return new ImageResponse(
       (
         <div
           style={{
-            background: "linear-gradient(135deg, #0f172a, #1e293b)",
+            background: "#0f172a",
             color: "white",
             width: "100%",
             height: "100%",
@@ -117,22 +120,8 @@ export default async function Image({
               position: "absolute",
               top: "-100px",
               left: "-100px",
-              width: "300px",
-              height: "300px",
-              borderRadius: "50%",
-              background: gradientBackground,
-              opacity: 0.2,
-              filter: "blur(40px)",
-              display: "flex",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-50px",
-              right: "-50px",
-              width: "250px",
-              height: "250px",
+              width: 300,
+              height: 300,
               borderRadius: "50%",
               background: gradientBackground,
               opacity: 0.15,
@@ -140,74 +129,31 @@ export default async function Image({
               display: "flex",
             }}
           />
-
-          {/* Website logo/branding at top */}
           <div
             style={{
               position: "absolute",
-              top: "30px",
-              left: "30px",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "8px",
-                background: gradientBackground,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              Q
-            </div>
-            <div
-              style={{
-                fontSize: "24px",
-                fontWeight: "bold",
-                background: "linear-gradient(to right, #fff, #cbd5e1)",
-                backgroundClip: "text",
-                color: "transparent",
-                display: "flex",
-              }}
-            >
-              Sayings
-            </div>
-          </div>
-
-          {/* Large decorative quote mark */}
-          <div
-            style={{
-              position: "absolute",
-              top: "60px",
-              left: "60px",
-              fontSize: "180px",
-              fontFamily: "serif",
-              opacity: "0.1",
-              color: "#fff",
+              bottom: 100,
+              right: 50,
+              width: 250,
+              height: 250,
+              borderRadius: "50%",
+              background: gradientBackground,
+              opacity: 0.1,
+              filter: "blur(40px)",
               display: "flex",
             }}
-          >
-            "
-          </div>
+          />
 
-          {/* Content container - Taller for Pinterest */}
+          {/* Content container */}
           <div
             style={{
-              margin: "80px 60px",
-              padding: "60px",
-              borderRadius: "24px",
-              background: "rgba(30, 41, 59, 0.7)",
-              backdropFilter: "blur(10px)",
-              boxShadow: "0 20px 50px rgba(0,0,0,0.3)",
-              width: "calc(100% - 120px)",
-              maxWidth: "900px",
+              margin: 60,
+              padding: 60,
+              borderRadius: 24,
+              background: "#1e293b",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+              width: 880, // Fixed width (1000 - 60*2)
+              height: 1380, // Fixed height (1500 - 60*2)
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -217,38 +163,78 @@ export default async function Image({
               border: "1px solid rgba(255,255,255,0.1)",
             }}
           >
-            {/* Quote text */}
+            {/* Decorative quote marks */}
             <div
               style={{
-                fontSize: fontSize,
-                fontStyle: "italic",
-                textAlign: "center",
-                maxWidth: "100%",
-                lineHeight: 1.4,
-                direction: isRtl ? "rtl" : "ltr",
+                position: "absolute",
+                top: 30,
+                left: 30,
+                fontSize: 120,
+                opacity: 0.1,
+                fontFamily: "serif",
+                color: "#ffffff",
                 display: "flex",
-                marginBottom: "60px",
-                background: "linear-gradient(to bottom, #fff, #94a3b8)",
-                backgroundClip: "text",
-                color: "transparent",
               }}
             >
-              "{quote.text}"
+              "
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: 30,
+                right: 30,
+                fontSize: 120,
+                opacity: 0.1,
+                fontFamily: "serif",
+                color: "#ffffff",
+                display: "flex",
+              }}
+            >
+              "
+            </div>
+
+            {/* Quote text - Centered with flex */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+                width: "100%",
+                padding: "0 20px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: fontSize,
+                  fontStyle: "italic",
+                  textAlign: "center",
+                  maxWidth: "100%",
+                  lineHeight: 1.4,
+                  direction: isRtl ? "rtl" : "ltr",
+                  display: "flex",
+                }}
+              >
+                "{quote.text}"
+              </div>
             </div>
 
             {/* Author info */}
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
-                gap: "16px",
+                gap: 20,
+                marginTop: 40,
+                marginBottom: 40,
               }}
             >
-              {/* Author avatar */}
+              {/* Author avatar - using placeholder image with absolute URL */}
               <div
                 style={{
-                  width: "80px",
-                  height: "80px",
+                  width: 180,
+                  height: 180,
                   borderRadius: "50%",
                   background: gradientBackground,
                   display: "flex",
@@ -256,26 +242,29 @@ export default async function Image({
                   alignItems: "center",
                   overflow: "hidden",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-                  border: "3px solid rgba(255,255,255,0.1)",
-                  fontSize: "32px",
-                  fontWeight: "bold",
-                  color: "white",
+                  border: "4px solid rgba(255,255,255,0.1)",
                 }}
               >
-                {quote.author.name.charAt(0)}
+                <img
+                  src={placeholderUserImage || "/placeholder.svg"}
+                  alt={quote.author.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "flex",
+                  }}
+                />
               </div>
 
               {/* Author name */}
               <div
                 style={{
-                  fontSize: "32px",
+                  fontSize: 42,
                   fontWeight: "bold",
                   opacity: 0.9,
                   direction: isRtl ? "rtl" : "ltr",
                   display: "flex",
-                  background: "linear-gradient(to right, #fff, #94a3b8)",
-                  backgroundClip: "text",
-                  color: "transparent",
                 }}
               >
                 {isRtl ? quote.author.name : `— ${quote.author.name}`}
@@ -283,50 +272,21 @@ export default async function Image({
             </div>
           </div>
 
-          {/* Tags display */}
-          {quote.tags && quote.tags.length > 0 && (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                gap: "8px",
-                maxWidth: "80%",
-                marginTop: "24px",
-              }}
-            >
-              {quote.tags.slice(0, 5).map((tag) => (
-                <div
-                  key={tag}
-                  style={{
-                    padding: "6px 12px",
-                    borderRadius: "9999px",
-                    background: "rgba(255,255,255,0.1)",
-                    fontSize: "14px",
-                    color: "#e2e8f0",
-                    display: "flex",
-                  }}
-                >
-                  #{tag}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Site URL at bottom */}
+          {/* Site branding */}
           <div
             style={{
               position: "absolute",
-              bottom: "30px",
+              bottom: 20,
+              left: 0,
+              right: 0,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "16px",
+              fontSize: 24,
               opacity: 0.7,
-              color: "#e2e8f0",
             }}
           >
-            {baseUrl.replace(/^https?:\/\//, "")}
+            Sayings • Inspirational Quotes
           </div>
         </div>
       ),
