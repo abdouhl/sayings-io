@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Tag } from "lucide-react";
+import { ArrowRight, ArrowLeft, Tag } from "lucide-react";
 import { getDictionary } from "@/dictionaries";
 import { getAllTags, countTags } from "@/lib/tags";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -112,7 +112,11 @@ export default async function TagsPage({
       <div className="flex flex-wrap gap-3 items-center mb-6 md:mb-8">
         <Link href={`/${lang}`}>
           <Button variant="outline" size="sm" className="h-9">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            {isRtl ? (
+              <ArrowRight className="mr-2 h-4 w-4 " />
+            ) : (
+              <ArrowLeft className="mr-2 h-4 w-4" />
+            )}
             {dict.navigation.backToHome}
           </Button>
         </Link>

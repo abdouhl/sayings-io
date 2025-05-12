@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowLeft, Quote, TagIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Quote, TagIcon } from "lucide-react";
 import { getDictionary } from "@/dictionaries";
 import {
   getQuoteById,
@@ -122,7 +122,7 @@ export default async function QuotePage({ params }: QuotePageProps) {
   const dict = await getDictionary(lang);
   const { id } = await params;
   const quote = await getQuoteById(id, lang);
-
+  const isRtl = lang === "ar";
   if (!quote) {
     notFound();
   }
@@ -171,7 +171,11 @@ export default async function QuotePage({ params }: QuotePageProps) {
 
         <Link href={`/${lang}`}>
           <Button variant="outline" className="mb-6 md:mb-8">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            {isRtl ? (
+              <ArrowRight className="mr-2 h-4 w-4 " />
+            ) : (
+              <ArrowLeft className="mr-2 h-4 w-4" />
+            )}
             {dict.navigation.backToHome}
           </Button>
         </Link>

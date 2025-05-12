@@ -2,7 +2,7 @@ import Link from "next/link";
 import { QuoteCard } from "@/components/quote-card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowLeft, Quote } from "lucide-react";
+import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
 import { getDictionary } from "@/dictionaries";
 import {
   getAuthorByUsername,
@@ -117,7 +117,11 @@ export default async function AuthorPage({
         <div className="flex flex-wrap gap-3 items-center mb-6 md:mb-8">
           <Link href={`/${lang}`}>
             <Button variant="outline" size="sm" className="h-9">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              {isRtl ? (
+                <ArrowRight className="mr-2 h-4 w-4 " />
+              ) : (
+                <ArrowLeft className="mr-2 h-4 w-4" />
+              )}
               {dict.navigation.backToHome}
             </Button>
           </Link>
