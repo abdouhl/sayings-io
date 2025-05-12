@@ -1,42 +1,80 @@
-"use client"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { useWindowSize } from "@/lib/client-utils"
-import { Quote } from "lucide-react"
+"use client";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useWindowSize } from "@/lib/client-utils";
+import { Quote } from "lucide-react";
+import { rtlLocales } from "@/middleware";
 
 interface Language {
-  code: string
-  name: string
-  nativeName: string
-  count: number
-  countLabel: string
+  code: string;
+  name: string;
+  nativeName: string;
+  count: number;
+  countLabel: string;
 }
 
 interface HeroSectionProps {
-  lang: string
-  title: string
-  description: string
+  lang: string;
+  title: string;
+  description: string;
 }
 
-export default function HeroSection({ lang, title, description }: HeroSectionProps) {
-  const windowSize = useWindowSize()
+export default function HeroSection({
+  lang,
+  title,
+  description,
+}: HeroSectionProps) {
+  const windowSize = useWindowSize();
 
   // Define languages with their article counts - aligned with website locales
   const languages: Language[] = [
-    { code: "en", name: "English", nativeName: "English", count: 5700, countLabel: "quotes" },
-    { code: "es", name: "Spanish", nativeName: "Español", count: 2800, countLabel: "citas" },
-    { code: "ar", name: "Arabic", nativeName: "العربية", count: 1200, countLabel: "مقالات" },
-    { code: "fr", name: "French", nativeName: "Français", count: 3500, countLabel: "citations" },
-    { code: "pt", name: "Portuguese", nativeName: "Português", count: 1900, countLabel: "citações" },
-  ]
+    {
+      code: "en",
+      name: "English",
+      nativeName: "English",
+      count: 5700,
+      countLabel: "quotes",
+    },
+    {
+      code: "es",
+      name: "Spanish",
+      nativeName: "Español",
+      count: 2800,
+      countLabel: "citas",
+    },
+    {
+      code: "ar",
+      name: "Arabic",
+      nativeName: "العربية",
+      count: 1200,
+      countLabel: "مقالات",
+    },
+    {
+      code: "fr",
+      name: "French",
+      nativeName: "Français",
+      count: 3500,
+      countLabel: "citations",
+    },
+    {
+      code: "pt",
+      name: "Portuguese",
+      nativeName: "Português",
+      count: 1900,
+      countLabel: "citações",
+    },
+  ];
 
   // Calculate positions in a circle
   const calculatePosition = (index: number, total: number, radius: number) => {
-    const angle = (index * 2 * Math.PI) / total - Math.PI / 2 // Start from top
-    const x = radius * Math.cos(angle)
-    const y = radius * Math.sin(angle)
-    return { x, y }
-  }
+    const angle = (index * 2 * Math.PI) / total - Math.PI / 2; // Start from top
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+    return { x, y };
+  };
+
+  // Safely check if lang is defined before using it
+  const isRtl = lang && rtlLocales.includes(lang);
 
   return (
     <div className="relative w-full bg-gradient-to-b from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 text-slate-900 dark:text-white overflow-hidden py-10">
@@ -70,7 +108,7 @@ export default function HeroSection({ lang, title, description }: HeroSectionPro
           {/* Text content */}
           <div className="text-center md:text-left md:w-1/2 mb-8 md:mb-0">
             <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-900 dark:from-blue-300 dark:to-white"
+              className={`${isRtl ? "leading-relaxed " : ""}text-3xl md:text-4xl lg:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-900 dark:from-blue-300 dark:to-white`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -127,15 +165,19 @@ export default function HeroSection({ lang, title, description }: HeroSectionPro
             {/* Language Items */}
             {languages.map((language, index) => {
               // Use a fixed radius based on viewport size
-              const radius = windowSize.width < 768 ? 120 : 140
+              const radius = windowSize.width < 768 ? 120 : 140;
 
-              const position = calculatePosition(index, languages.length, radius)
+              const position = calculatePosition(
+                index,
+                languages.length,
+                radius,
+              );
               const positionStyle = {
                 left: `calc(50% + ${position.x}px)`,
                 top: `calc(50% + ${position.y}px)`,
-              }
+              };
 
-              const isActive = language.code === lang
+              const isActive = language.code === lang;
 
               return (
                 <motion.div
@@ -157,7 +199,9 @@ export default function HeroSection({ lang, title, description }: HeroSectionPro
                     <div className="w-24">
                       <div
                         className={`text-base font-medium ${
-                          isActive ? "text-blue-800 dark:text-white" : "text-slate-700 dark:text-blue-100"
+                          isActive
+                            ? "text-blue-800 dark:text-white"
+                            : "text-slate-700 dark:text-blue-100"
                         }`}
                       >
                         {language.nativeName}
@@ -168,7 +212,7 @@ export default function HeroSection({ lang, title, description }: HeroSectionPro
                     </div>
                   </Link>
                 </motion.div>
-              )
+              );
             })}
           </div>
         </div>
@@ -188,6 +232,5 @@ export default function HeroSection({ lang, title, description }: HeroSectionPro
         </svg>
       </div>
     </div>
-  )
+  );
 }
-
