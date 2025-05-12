@@ -34,13 +34,13 @@ export async function generateMetadata(
     title: dict.metadata.title,
     description: dict.metadata.description,
     alternates: {
-      canonical: `/${lang}`,
+      canonical: `${baseUrl}/${lang}`,
       languages: {
-        en: "/en",
-        es: "/es",
-        ar: "/ar",
-        fr: "/fr",
-        pt: "/pt",
+        en: `${baseUrl}/en`,
+        es: `${baseUrl}/es`,
+        ar: `${baseUrl}/ar`,
+        fr: `${baseUrl}/fr`,
+        pt: `${baseUrl}/pt`,
       },
     },
     openGraph: {
