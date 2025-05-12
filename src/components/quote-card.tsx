@@ -91,7 +91,7 @@ export function QuoteCard({
         )}
       </CardContent>
       {!hideAuthor && (
-        <CardFooter className="border-t pt-4 flex items-center gap-3 bg-muted/30">
+        <CardFooter className="border-t py-4 flex items-center gap-3 bg-muted/30">
           <Avatar className="h-8 w-8 rounded-md">
             <AvatarImage
               src={quote.author.avatar || "/placeholder.svg"}
