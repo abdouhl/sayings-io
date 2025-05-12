@@ -120,7 +120,7 @@ export default async function AuthorsPage({
               key={author.username}
               className="group transition-transform duration-300 hover:-translate-y-1"
             >
-              <Card className="h-full flex flex-col overflow-hidden border-2 hover:border-primary/50 transition-colors">
+              <Card className="h-full flex flex-col overflow-hidden border-2 hover:border-primary/50 transition-colors !pt-0">
                 <div
                   className={`h-3 bg-gradient-to-r ${getGradientColor(author.name)}`}
                 ></div>
@@ -153,7 +153,7 @@ export default async function AuthorsPage({
                     {dict.authors.exploreQuotesBy} {author.name}
                   </p>
                 </CardContent>
-                <CardFooter className="border-t pt-4 justify-center">
+                <CardFooter className="border-t py-4 justify-center">
                   <span
                     className={`text-sm font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all ${isRtl ? "flex-row-reverse" : ""}`}
                   >
