@@ -51,9 +51,11 @@ export function QuoteCard({
   };
 
   return (
-    <Card className="!pb-0 h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300 border-2 hover:border-primary/30">
+    <Card className="!py-0 h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300 border-2 hover:border-primary/30">
       <CardContent className="pt-6 flex-1 relative">
-        <div className="absolute top-2 left-2 text-primary/20">
+        <div
+          className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} text-primary/20`}
+        >
           <QuoteIcon className="h-8 w-8" />
         </div>
         <a
@@ -104,7 +106,7 @@ export function QuoteCard({
           </Avatar>
           <Link
             href={`/${lang}/authors/${quote.author.username}`}
-            className={`text-sm font-medium hover:text-primary transition-colors ${isRtl ? "mr-auto" : "ml-auto"}`}
+            className="text-sm font-medium hover:text-primary transition-colors ml-auto"
             title={`${dictionary.quoteBy} ${quote.author.name}`}
           >
             — {quote.author.name}
