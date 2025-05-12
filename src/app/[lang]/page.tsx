@@ -11,7 +11,7 @@ import { getAuthors } from "@/lib/authors";
 import { getPopularTags } from "@/lib/tags";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Tag, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Tag, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HeroSection from "@/components/hero-section";
 
@@ -195,7 +195,11 @@ export default async function Home({ params, searchParams }: HomePageProps) {
                     className="text-sm text-primary hover:underline flex items-center gap-1"
                   >
                     {dict.authors.allAuthors}
-                    <ArrowRight className="h-3 w-3" />
+                    {isRtl ? (
+                      <ArrowLeft className="h-3 w-3" />
+                    ) : (
+                      <ArrowRight className="h-3 w-3" />
+                    )}
                   </Link>
                 </div>
 
@@ -244,7 +248,11 @@ export default async function Home({ params, searchParams }: HomePageProps) {
                     className="text-sm text-primary hover:underline flex items-center gap-1"
                   >
                     {dict.tags.allTags || "All Topics"}
-                    <ArrowRight className="h-3 w-3" />
+                    {isRtl ? (
+                      <ArrowLeft className="h-3 w-3" />
+                    ) : (
+                      <ArrowRight className="h-3 w-3" />
+                    )}
                   </Link>
                 </div>
 
