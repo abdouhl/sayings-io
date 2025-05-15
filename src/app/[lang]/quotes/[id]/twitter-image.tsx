@@ -253,7 +253,7 @@ export default async function Image({
             >
               <div
                 style={{
-                  fontFamily: "'quote', sans-serif",
+                  fontFamily: 'quote',
                   fontSize: fontSize,
                   fontStyle: "italic",
                   textAlign: "center",
@@ -307,7 +307,7 @@ export default async function Image({
               <div
                 style={{
                   fontSize: 36,
-                  fontFamily: "'author', sans-serif",
+                  fontFamily: 'author',
                   fontWeight: "bold",
                   opacity: 0.9,
                   direction: isRtl ? "rtl" : "ltr",
