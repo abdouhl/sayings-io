@@ -52,7 +52,7 @@ export default async function Image() {
       fonts: [
         {
           name: 'Geist',
-          data: await loadGoogleFont('Geist', text),
+          data: await loadGoogleFont('Edu+QLD+Beginner', text),
           style: 'normal',
         },
       ],
