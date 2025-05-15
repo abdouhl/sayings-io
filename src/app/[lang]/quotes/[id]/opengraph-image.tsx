@@ -12,6 +12,22 @@ export const size = {
 
 export const contentType = "image/png";
 
+async function loadGoogleFont (font: string) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}`
+  const css = await (await fetch(url)).text()
+  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
+ 
+  if (resource) {
+    const response = await fetch(resource[1])
+    if (response.status == 200) {
+      return await response.arrayBuffer()
+    }
+  }
+ 
+  throw new Error('failed to load font data')
+}
+
+
 export default async function Image({
   params,
 }: {
@@ -69,10 +85,19 @@ export default async function Image({
 
     // Calculate font size based on text length - INCREASED SIZES
     const getFontSize = (text: string) => {
-      if (text.length > 300) return 42;
-      if (text.length > 200) return 48;
-      if (text.length > 100) return 56;
-      return 64;
+      if (text.length > 300) return 48;
+      if (text.length > 280) return 52;
+      if (text.length > 260) return 54;
+      if (text.length > 240) return 56;
+      if (text.length > 220) return 58;
+      if (text.length > 200) return 60;
+      if (text.length > 180) return 62;
+      if (text.length > 160) return 64;
+      if (text.length > 140) return 66;
+      if (text.length > 120) return 68;
+      if (text.length > 100) return 72;
+      if (text.length > 80) return 74;
+      return 76;
     };
 
     const fontSize = getFontSize(quote.text);
@@ -210,6 +235,7 @@ export default async function Image({
             >
               <div
                 style={{
+                  fontFamily: 'quote',
                   fontSize: fontSize,
                   fontStyle: "italic",
                   textAlign: "center",
@@ -265,6 +291,7 @@ export default async function Image({
               <div
                 style={{
                   fontSize: 42,
+                  fontFamily: 'author',
                   fontWeight: "bold",
                   opacity: 0.9,
                   direction: isRtl ? "rtl" : "ltr",
@@ -294,7 +321,21 @@ export default async function Image({
           </div>
         </div>
       ),
-      { ...size },
+      {
+      width: 1000,
+      height: 1500,
+      fonts: [
+        {
+          name: 'quote',
+          data: await loadGoogleFont('Special+Elite'),
+          style: 'normal',
+        },{
+          name: 'author',
+          data: await loadGoogleFont('Charm:wght@700'),
+          style: 'normal',
+        },
+      ],
+    },
     );
   } catch (error) {
     console.error("Error generating OpenGraph image:", error);
