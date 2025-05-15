@@ -69,9 +69,19 @@ export default async function Image({
 
     // Calculate font size based on text length - INCREASED SIZES
     const getFontSize = (text: string) => {
-      if (text.length > 300) return 36;
-      if (text.length > 200) return 42;
-      if (text.length > 100) return 48;
+      if (text.length > 300) return 32;
+      if (text.length > 280) return 34;
+      if (text.length > 260) return 36;
+      if (text.length > 240) return 38;
+      if (text.length > 220) return 39;
+      if (text.length > 200) return 40;
+      if (text.length > 180) return 41;
+      if (text.length > 160) return 42;
+      if (text.length > 140) return 43;
+      if (text.length > 120) return 44;
+      if (text.length > 100) return 46;
+      if (text.length > 80) return 48;
+      if (text.length > 60) return 50;
       return 56;
     };
 
@@ -208,7 +218,7 @@ export default async function Image({
                   fontStyle: "italic",
                   textAlign: "center",
                   maxWidth: "100%",
-                  lineHeight: 1.4,
+                  lineHeight: 1.2,
                   direction: isRtl ? "rtl" : "ltr",
                   display: "flex",
                 }}
