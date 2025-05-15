@@ -12,8 +12,8 @@ export const size = {
 
 export const contentType = "image/png";
 
-async function loadGoogleFont (font: string, text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`
+async function loadGoogleFont (font: string) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}}`
   const css = await (await fetch(url)).text()
   const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/)
  
@@ -380,11 +380,11 @@ export default async function Image({
       fonts: [
         {
           name: 'quote',
-          data: await loadGoogleFont('Edu+QLD+Beginner', quote.text),
+          data: await loadGoogleFont('Edu+QLD+Beginner'),
           style: 'normal',
         },{
           name: 'author',
-          data: await loadGoogleFont('Permanent+Marker', quote.author.name),
+          data: await loadGoogleFont('Permanent+Marker'),
           style: 'normal',
         },
       ],
