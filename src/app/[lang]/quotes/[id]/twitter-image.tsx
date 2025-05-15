@@ -41,10 +41,11 @@ export default async function Image() {
           fontSize: 100,
           paddingTop: '100px',
           paddingLeft: '50px',
+          display: "flex",
         }}
       >
-        <p style={{fontFamily: 'Edu+QLD+Beginner',}}>{text}</p>
-        <p style={{fontFamily: 'Permanent+Marker',}}>{author}</p>
+        <div style={{fontFamily: 'Edu+QLD+Beginner',display: "flex",}}>{text}</div>
+        <div style={{fontFamily: 'Permanent+Marker',display: "flex",}}>{author}</div>
       </div>
     ),
     {
