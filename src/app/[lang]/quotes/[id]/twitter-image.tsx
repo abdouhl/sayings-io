@@ -63,30 +63,6 @@ export default async function Image({
       );
     }
 
-    const fontCssUrl =
-      "https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap";
-    const cssResponse = await fetch(fontCssUrl);
-    const cssText = await cssResponse.text();
-
-    // Extract font URLs from the CSS
-    const fontUrlMatch = cssText.match(
-      /url\((https:\/\/fonts.gstatic.com\/.+?)\)/,
-    );
-
-    if (!fontUrlMatch || !fontUrlMatch[1]) {
-      throw new Error("Font URL extraction failed.");
-    }
-
-    const fontResponse = await fetch(fontUrlMatch[1]);
-
-    if (!fontResponse.ok) {
-      throw new Error(
-        `Failed to fetch font file: ${fontResponse.status} ${fontResponse.statusText}`,
-      );
-    }
-
-    const fontData = await fontResponse.arrayBuffer();
-
     // Generate a gradient color based on the author's name
     const getGradientColor = (name: string) => {
       const colors = [
@@ -253,7 +229,7 @@ export default async function Image({
             >
               <div
                 style={{
-                  fontFamily: 'author',
+                  fontFamily: 'quote',
                   fontSize: fontSize,
                   fontStyle: "italic",
                   textAlign: "center",
@@ -307,7 +283,7 @@ export default async function Image({
               <div
                 style={{
                   fontSize: 36,
-                  fontFamily: 'quote',
+                  fontFamily: 'author',
                   fontWeight: "bold",
                   opacity: 0.9,
                   direction: isRtl ? "rtl" : "ltr",
@@ -338,16 +314,20 @@ export default async function Image({
         </div>
       ),
       {
-        width: 1200,
-        height: 630,
-        fonts: [
-          {
-            name: "Delius",
-            data: fontData,
-            style: "normal",
-          },
-        ],
-      },
+      width: 1200,
+      height: 630,
+      fonts: [
+        {
+          name: 'quote',
+          data: await loadGoogleFont('Edu+QLD+Beginner', text),
+          style: 'normal',
+        },{
+          name: 'author',
+          data: await loadGoogleFont('Permanent+Marker', author),
+          style: 'normal',
+        },
+      ],
+    },
     );
   } catch (error) {
     console.error("Error generating Twitter image:", error);
@@ -374,21 +354,7 @@ export default async function Image({
           </div>
         </div>
       ),
-      {
-      width: 1200,
-      height: 630,
-      fonts: [
-        {
-          name: 'quote',
-          data: await loadGoogleFont('Permanent+Marker'),
-          style: 'normal',
-        },{
-          name: 'author',
-          data: await loadGoogleFont('Edu+QLD+Beginner'),
-          style: 'normal',
-        },
-      ],
-    },
+      { ...size },
     );
   }
 }
