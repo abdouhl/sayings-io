@@ -49,7 +49,7 @@ export default async function Image({
     }
 
     const fontCssUrl =
-      "https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap";
+      "https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap";
     const cssResponse = await fetch(fontCssUrl);
     const cssText = await cssResponse.text();
 
