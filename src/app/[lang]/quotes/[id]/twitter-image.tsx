@@ -380,11 +380,11 @@ export default async function Image({
       fonts: [
         {
           name: 'quote',
-          data: await loadGoogleFont('Edu+QLD+Beginner'),
+          data: await loadGoogleFont('Permanent+Marker'),
           style: 'normal',
         },{
           name: 'author',
-          data: await loadGoogleFont('Permanent+Marker'),
+          data: await loadGoogleFont('Edu+QLD+Beginner'),
           style: 'normal',
         },
       ],
