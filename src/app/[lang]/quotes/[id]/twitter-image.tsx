@@ -29,6 +29,7 @@ async function loadGoogleFont (font: string, text: string) {
 export default async function Image() {
 
   const text = 'Hello world!'
+  const author = 'Permanent Marker'
  
   return new ImageResponse(
     (
@@ -38,12 +39,12 @@ export default async function Image() {
           height: '100%',
           width: '100%',
           fontSize: 100,
-          fontFamily: 'Geist',
           paddingTop: '100px',
           paddingLeft: '50px',
         }}
       >
-        {text}
+        <p style={{fontFamily: 'Edu+QLD+Beginner',}}>{text}</p>
+        <p style={{fontFamily: 'Permanent+Marker',}}>{author}</p>
       </div>
     ),
     {
@@ -51,8 +52,12 @@ export default async function Image() {
       height: 630,
       fonts: [
         {
-          name: 'Geist',
+          name: 'Edu+QLD+Beginner',
           data: await loadGoogleFont('Edu+QLD+Beginner', text),
+          style: 'normal',
+        },{
+          name: 'Permanent+Marker',
+          data: await loadGoogleFont('Permanent+Marker', author),
           style: 'normal',
         },
       ],
