@@ -292,6 +292,7 @@ export default async function Image({
               <div
                 style={{
                   fontSize: 36,
+                  fontFamily: 'Inter, "Material Icons"',
                   fontWeight: "bold",
                   opacity: 0.9,
                   direction: isRtl ? "rtl" : "ltr",
