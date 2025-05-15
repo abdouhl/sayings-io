@@ -11,48 +11,81 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  // Fetch Google Fonts CSS
-  // https://fonts.googleapis.com/css2?family=Delius&family=Mochiy+Pop+One&family=Pinyon+Script&display=swap
+  // Fetch Google Fonts CSS for both fonts
   const fontCssUrl =
-    "https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap";
+    "https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Delius&display=swap";
   const cssResponse = await fetch(fontCssUrl);
   const cssText = await cssResponse.text();
 
   // Extract font URLs from the CSS
-  const fontUrlMatch = cssText.match(
-    /url\((https:\/\/fonts.gstatic.com\/.+?)\)/,
+  const pinyonScriptMatch = cssText.match(
+    /font-family: 'Pinyon Script';.*?url\((https:\/\/fonts.gstatic.com\/.+?)\)/,
   );
 
-  if (!fontUrlMatch || !fontUrlMatch[1]) {
-    throw new Error("Font URL extraction failed.");
+  const deliusMatch = cssText.match(
+    /font-family: 'Delius';.*?url\((https:\/\/fonts.gstatic.com\/.+?)\)/,
+  );
+
+  if (!pinyonScriptMatch || !pinyonScriptMatch[1]) {
+    throw new Error("Pinyon Script font URL extraction failed.");
   }
 
-  const fontResponse = await fetch(fontUrlMatch[1]);
+  if (!deliusMatch || !deliusMatch[1]) {
+    throw new Error("Delius font URL extraction failed.");
+  }
 
-  if (!fontResponse.ok) {
+  // Fetch both font files
+  const pinyonScriptResponse = await fetch(pinyonScriptMatch[1]);
+  const deliusResponse = await fetch(deliusMatch[1]);
+
+  if (!pinyonScriptResponse.ok) {
     throw new Error(
-      `Failed to fetch font file: ${fontResponse.status} ${fontResponse.statusText}`,
+      `Failed to fetch Pinyon Script font: ${pinyonScriptResponse.status} ${pinyonScriptResponse.statusText}`,
     );
   }
 
-  const fontData = await fontResponse.arrayBuffer();
+  if (!deliusResponse.ok) {
+    throw new Error(
+      `Failed to fetch Delius font: ${deliusResponse.status} ${deliusResponse.statusText}`,
+    );
+  }
+
+  const pinyonScriptData = await pinyonScriptResponse.arrayBuffer();
+  const deliusData = await deliusResponse.arrayBuffer();
 
   return new ImageResponse(
     (
       <div
         style={{
-          fontFamily: "'Delius', sans-serif",
           background: "#f5f5f5",
           width: 1200,
           height: 630,
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          fontSize: 60,
           padding: 50,
         }}
       >
-        Custom Open Graph Image!
+        <div
+          style={{
+            fontFamily: "'Pinyon Script', cursive",
+            fontSize: 80,
+            color: "#333",
+            marginBottom: 40,
+          }}
+        >
+          Elegant Heading
+        </div>
+        <div
+          style={{
+            fontFamily: "'Delius', sans-serif",
+            fontSize: 50,
+            color: "#555",
+          }}
+        >
+          Custom Open Graph Image with Two Fonts!
+        </div>
       </div>
     ),
     {
@@ -60,8 +93,13 @@ export default async function Image() {
       height: 630,
       fonts: [
         {
+          name: "Pinyon Script",
+          data: pinyonScriptData,
+          style: "normal",
+        },
+        {
           name: "Delius",
-          data: fontData,
+          data: deliusData,
           style: "normal",
         },
       ],
