@@ -20,8 +20,6 @@ type HomePageProps = {
   searchParams: Promise<{ page: string }>;
 };
 
-export const revalidate = 2592000;
-
 export async function generateMetadata(
   { params, searchParams }: HomePageProps,
   parent: ResolvingMetadata,
@@ -87,7 +85,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
   // Handle pagination
   const currentPage = Number.parseInt(page);
-  const quotesPerPage = 6;
+  const quotesPerPage = 12;
 
   // Get total quotes count for pagination
   let totalQuotes = 0;
