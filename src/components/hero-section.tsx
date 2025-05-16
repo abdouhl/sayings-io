@@ -32,7 +32,7 @@ export default function HeroSection({
       code: "en",
       name: "English",
       nativeName: "English",
-      count: 5700,
+      count: 100000,
       countLabel: "quotes",
     },
     {
