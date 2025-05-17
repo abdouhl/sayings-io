@@ -52,7 +52,7 @@ export function QuoteCard({
 
   return (
     <Card className="!py-0 h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300 border-2 hover:border-primary/30">
-      <CardContent className="pt-6 flex-1 relative">
+      <CardContent className={` ${hideAuthor ? "py-6" : "pt-6"}  flex-1 relative`}>
         <div
           className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} text-primary/20`}
         >
