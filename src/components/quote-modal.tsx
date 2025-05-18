@@ -56,7 +56,7 @@ export function QuoteModal() {
           {/* Tags - check if tags exist and have length */}
           {quote.tags && Array.isArray(quote.tags) && quote.tags.length > 0 && (
             <div className="flex flex-wrap justify-center gap-1 mb-6">
-              {quote.tags.map((tag) => (
+              {quote.tags.slice(0, 3).map((tag) => (
                 <Link
                   key={tag}
                   href={`/${lang}/tags/${encodeURIComponent(tag)}`}

@@ -52,7 +52,9 @@ export function QuoteCard({
 
   return (
     <Card className="!py-0 h-full flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300 border-2 hover:border-primary/30">
-      <CardContent className={` ${hideAuthor ? "py-6" : "pt-6"}  flex-1 relative`}>
+      <CardContent
+        className={` ${hideAuthor ? "py-6" : "pt-6"}  flex-1 relative`}
+      >
         <div
           className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} text-primary/20`}
         >
@@ -75,7 +77,7 @@ export function QuoteCard({
           <div
             className={`flex flex-wrap gap-1 mt-4 ${isRtl ? "justify-end" : ""}`}
           >
-            {quote.tags.map((tag) => (
+            {quote.tags.slice(0, 3).map((tag) => (
               <Link
                 key={tag}
                 href={`/${lang}/tags/${encodeURIComponent(tag)}`}
