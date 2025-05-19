@@ -24,7 +24,7 @@ export async function generateMetadata({
   const decodedTag = decodeURIComponent(tag);
 
   return {
-    title: `${dict.tags.quotesWithTag} "${decodedTag}"`,
+    title: `${dict.tags.quotesWithTag} ${decodedTag}`,
     description: `${dict.tags.exploreQuotesWithTag} "${decodedTag}"`,
     openGraph: {
       title: `${dict.tags.quotesWithTag} "${decodedTag}"`,
@@ -35,7 +35,7 @@ export async function generateMetadata({
 }
 
 export default async function TagPage({ params, searchParams }: TagPageProps) {
-   const { lang = "en" } = (await params) ?? {};
+  const { lang = "en" } = (await params) ?? {};
   const dict = await getDictionary(lang);
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
@@ -77,7 +77,7 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
           <Tag className="h-6 w-6 text-primary" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          {dict.tags.quotesWithTag} "{decodedTag}"
+          {dict.tags.quotesWithTag} {decodedTag}
         </h1>
         <p className="text-muted-foreground">
           {totalQuotes}{" "}
